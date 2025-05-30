@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { PlayIcon, InfoIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import iplImage from './1500x500.jpeg';
 
 const heroSlides = [{
   id: 1,
@@ -11,9 +10,9 @@ const heroSlides = [{
   logo: 'https://www.themoviedb.org/t/p/original/d1QqwJGtlUUwlisWyuJLCiRN1Fm.png'
 }, {
   id: 2,
-  title: 'IPL 2024',
-  description: "Experience the thrill of the Indian Premier League with live matches, exclusive highlights, and behind-the-scenes content from cricket's biggest tournament.",
-  image: iplImage,
+  title: 'Formula One World Championship',
+  description: "Experience the ultimate adrenaline rush with Formula One racing. Watch live races, exclusive driver interviews, behind-the-scenes content, and all the high-speed action from the world's premier motorsport championship.",
+  image: 'https://automobilist.com/cdn/shop/collections/ATM_Collection_Mercedes-AMGPetronasF1Team_a262c453-13c5-4f2d-bf9d-7a88b1c89813.jpg?v=1683894875&width=2048',
   logo: null
 }, {
   id: 3,
@@ -147,25 +146,14 @@ export function Hero() {
                   exit={{ opacity: 0, y: -30 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                  {slide.logo ? (
-                    <motion.img 
-                      src={slide.logo} 
-                      alt={slide.title} 
-                      className="h-24 md:h-32 object-contain mb-4"
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.6, delay: 0.3 }}
-                    />
-                  ) : (
-                    <motion.h2 
-                      className="text-4xl md:text-6xl font-bold mb-4"
-                      initial={{ scale: 0.9, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.6, delay: 0.3 }}
-                    >
-                      {slide.title}
-                    </motion.h2>
-                  )}
+                  <motion.h2 
+                    className="text-4xl md:text-6xl font-bold mb-4"
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                  >
+                    {slide.title}
+                  </motion.h2>
                   <motion.p 
                     className="text-lg md:text-xl text-gray-200 mb-6 max-w-xl"
                     initial={{ opacity: 0 }}

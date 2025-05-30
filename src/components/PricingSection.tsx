@@ -239,8 +239,9 @@ export function PricingSection() {
                 </motion.div>
 
                 {/* CTA Button */}
-                <motion.button 
-                  className={`w-full py-4 rounded-xl font-semibold transition-all duration-300 backdrop-blur-sm border relative overflow-hidden group/btn ${
+                <motion.a 
+                  href={`mailto:join@star4ktv.com?subject=Star4KTV ${plan.name} Plan Subscription&body=Hello Star4KTV Team,%0D%0A%0D%0AI am interested in subscribing to the ${plan.name} plan for $${plan.price}/${plan.period}.%0D%0A%0D%0APlease provide me with the setup instructions and payment details.%0D%0A%0D%0AThank you!%0D%0A%0D%0ABest regards`}
+                  className={`w-full py-4 rounded-xl font-semibold transition-all duration-300 backdrop-blur-sm border relative overflow-hidden group/btn text-center block ${
                     plan.popular 
                       ? 'bg-white/20 hover:bg-white/30 text-white border-white/30 hover:border-white/50 shadow-lg hover:shadow-xl' 
                       : 'bg-gradient-to-r from-[#E50914] to-[#f40612] hover:from-[#f40612] hover:to-[#E50914] text-white border-transparent shadow-lg hover:shadow-xl hover:shadow-[#E50914]/25'
@@ -264,7 +265,7 @@ export function PricingSection() {
                     transition={{ duration: 0.6 }}
                   ></motion.div>
                   <span className="relative z-10">Choose {plan.name}</span>
-                </motion.button>
+                </motion.a>
               </div>
 
               {/* Bottom glow effect */}

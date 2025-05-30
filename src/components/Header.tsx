@@ -11,26 +11,25 @@ export function Header() {
   const location = useLocation();
 
   useEffect(() => {
-    const controlNavbar = () => {
-      if (typeof window !== 'undefined') {
-        if (window.scrollY > lastScrollY && window.scrollY > 100) {
-          // Scrolling down and past 100px
-          setIsVisible(false);
-        } else {
-          // Scrolling up
-          setIsVisible(true);
-        }
-        setLastScrollY(window.scrollY);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY < 10) {
+        // Always show when at the top
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY) {
+        // Scrolling down - hide navbar
+        setIsVisible(false);
+      } else {
+        // Scrolling up - show navbar
+        setIsVisible(true);
       }
+      
+      setLastScrollY(currentScrollY);
     };
 
-    if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', controlNavbar);
-
-      return () => {
-        window.removeEventListener('scroll', controlNavbar);
-      };
-    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
   const scrollToTop = () => {
@@ -116,154 +115,101 @@ export function Header() {
   };
   
   return (
-    <motion.header 
-      className={`fixed top-0 left-0 right-0 z-50 p-4 transition-transform duration-300 ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 p-4 transition-transform duration-500 ease-in-out ${
+        !isVisible ? '-translate-y-full' : 'translate-y-0'
       }`}
-      initial="hidden"
-      animate="visible"
-      variants={navVariants}
+      style={{
+        transform: !isVisible ? 'translateY(-100%)' : 'translateY(0)',
+      }}
     >
-      <motion.div 
-        className="max-w-7xl mx-auto bg-black/20 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl"
-        whileHover={{ 
-          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
-          transition: { duration: 0.3 }
-        }}
-      >
+      <div className="max-w-7xl mx-auto bg-black/20 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl">
         <div className="px-6">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <motion.div 
-              className="flex items-center"
-              variants={itemVariants}
-            >
+            <div className="flex items-center">
               <Link to="/" onClick={handleHomeClick}>
-                <motion.img 
+                <img 
                   src={logo} 
                   alt="Star4KTV Logo" 
-                  className="h-12 bg-white p-2 rounded-xl shadow-lg"
-                  whileHover={{ 
-                    scale: 1.1, 
-                    rotate: 5,
-                    transition: { duration: 0.3 }
-                  }}
-                  whileTap={{ scale: 0.95 }}
+                  className="h-20 object-contain"
                 />
               </Link>
-            </motion.div>
+            </div>
             
             {/* Desktop Navigation */}
-            <motion.nav 
-              className="hidden md:flex space-x-8"
-              variants={itemVariants}
-            >
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
+            <nav className="hidden md:flex space-x-8">
+              <div>
                 <Link 
                   to="/" 
                   onClick={handleHomeClick}
                   className="text-white/90 hover:text-white hover:text-[#E50914] transition-all duration-300 font-medium relative group"
                 >
                   Home
-                  <motion.span 
+                  <span 
                     className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#E50914] transition-all duration-300 group-hover:w-full"
-                    initial={{ width: 0 }}
-                    whileHover={{ width: "100%" }}
-                  ></motion.span>
+                  ></span>
                 </Link>
-              </motion.div>
+              </div>
               
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              <div>
                 <Link 
                   to="/channels" 
                   className="text-white/90 hover:text-white hover:text-[#E50914] transition-all duration-300 font-medium relative group"
                 >
                   Channels
-                  <motion.span 
+                  <span 
                     className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#E50914] transition-all duration-300 group-hover:w-full"
-                    initial={{ width: 0 }}
-                    whileHover={{ width: "100%" }}
-                  ></motion.span>
+                  ></span>
                 </Link>
-              </motion.div>
+              </div>
               
-              <motion.button 
+              <button 
                 onClick={() => scrollToSection('pricing')}
                 className="text-white/90 hover:text-white hover:text-[#E50914] transition-all duration-300 font-medium relative group"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
               >
                 Pricing
-                <motion.span 
+                <span 
                   className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#E50914] transition-all duration-300 group-hover:w-full"
-                  initial={{ width: 0 }}
-                  whileHover={{ width: "100%" }}
-                ></motion.span>
-              </motion.button>
+                ></span>
+              </button>
               
-              <motion.button 
+              <button 
                 onClick={() => scrollToSection('faq')}
                 className="text-white/90 hover:text-white hover:text-[#E50914] transition-all duration-300 font-medium relative group"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
               >
                 FAQ
-                <motion.span 
+                <span 
                   className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#E50914] transition-all duration-300 group-hover:w-full"
-                  initial={{ width: 0 }}
-                  whileHover={{ width: "100%" }}
-                ></motion.span>
-              </motion.button>
+                ></span>
+              </button>
               
-              <motion.button 
+              <button 
                 onClick={scrollToFooter}
                 className="text-white/90 hover:text-white hover:text-[#E50914] transition-all duration-300 font-medium relative group"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
               >
                 Contact
-                <motion.span 
+                <span 
                   className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#E50914] transition-all duration-300 group-hover:w-full"
-                  initial={{ width: 0 }}
-                  whileHover={{ width: "100%" }}
-                ></motion.span>
-              </motion.button>
-            </motion.nav>
+                ></span>
+              </button>
+            </nav>
             
             {/* Desktop Actions */}
-            <motion.div 
-              className="hidden md:flex items-center space-x-4"
-              variants={itemVariants}
-            >
-              <motion.button 
+            <div className="hidden md:flex items-center space-x-4">
+              <button 
                 onClick={() => scrollToSection('pricing')}
                 className="bg-gradient-to-r from-[#E50914] to-[#f40612] hover:from-[#f40612] hover:to-[#E50914] text-white px-6 py-2.5 rounded-xl transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
-                whileHover={{ 
-                  scale: 1.05,
-                  boxShadow: "0 10px 30px rgba(229, 9, 20, 0.4)"
-                }}
-                whileTap={{ scale: 0.95 }}
               >
                 Subscribe Now
-              </motion.button>
-            </motion.div>
+              </button>
+            </div>
             
             {/* Mobile Menu Button */}
-            <motion.div 
-              className="md:hidden flex items-center"
-              variants={itemVariants}
-            >
-              <motion.button 
+            <div className="md:hidden flex items-center">
+              <button 
                 onClick={() => setIsMenuOpen(!isMenuOpen)} 
                 className="text-white/80 hover:text-white hover:bg-white/10 p-2 rounded-xl transition-all duration-300"
-                whileHover={{ scale: 1.1, backgroundColor: "rgba(255,255,255,0.1)" }}
-                whileTap={{ scale: 0.9 }}
               >
                 <AnimatePresence mode="wait">
                   {isMenuOpen ? (
@@ -288,27 +234,18 @@ export function Header() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </motion.button>
-            </motion.div>
+              </button>
+            </div>
           </div>
         </div>
         
         {/* Mobile Menu */}
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.div 
-              className="md:hidden border-t border-white/10 bg-black/10 backdrop-blur-sm rounded-b-2xl overflow-hidden"
-              variants={mobileMenuVariants}
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-            >
+            <div className="md:hidden border-t border-white/10 bg-black/10 backdrop-blur-sm rounded-b-2xl overflow-hidden">
               <div className="px-6 py-4">
-                <motion.nav 
-                  className="flex flex-col space-y-3"
-                  variants={mobileMenuVariants}
-                >
-                  <motion.div variants={mobileItemVariants}>
+                <nav className="flex flex-col space-y-3">
+                  <div>
                     <Link 
                       to="/" 
                       onClick={handleHomeClick}
@@ -316,9 +253,9 @@ export function Header() {
                     >
                       Home
                     </Link>
-                  </motion.div>
+                  </div>
                   
-                  <motion.div variants={mobileItemVariants}>
+                  <div>
                     <Link 
                       to="/channels" 
                       onClick={() => setIsMenuOpen(false)}
@@ -326,54 +263,49 @@ export function Header() {
                     >
                       Channels
                     </Link>
-                  </motion.div>
+                  </div>
                   
-                  <motion.div variants={mobileItemVariants}>
+                  <div>
                     <button 
                       onClick={() => scrollToSection('pricing')}
                       className="text-left text-white/90 hover:text-[#E50914] transition-all duration-300 py-2.5 px-3 rounded-xl hover:bg-white/5 font-medium w-full"
                     >
                       Pricing
                     </button>
-                  </motion.div>
+                  </div>
                   
-                  <motion.div variants={mobileItemVariants}>
+                  <div>
                     <button 
                       onClick={() => scrollToSection('faq')}
                       className="text-left text-white/90 hover:text-[#E50914] transition-all duration-300 py-2.5 px-3 rounded-xl hover:bg-white/5 font-medium w-full"
                     >
                       FAQ
                     </button>
-                  </motion.div>
+                  </div>
                   
-                  <motion.div variants={mobileItemVariants}>
+                  <div>
                     <button 
                       onClick={scrollToFooter}
                       className="text-left text-white/90 hover:text-[#E50914] transition-all duration-300 py-2.5 px-3 rounded-xl hover:bg-white/5 font-medium w-full"
                     >
                       Contact
                     </button>
-                  </motion.div>
+                  </div>
                   
-                  <motion.div 
-                    className="pt-3"
-                    variants={mobileItemVariants}
-                  >
-                    <motion.button 
+                  <div className="pt-3">
+                    <button 
                       onClick={() => scrollToSection('pricing')}
                       className="bg-gradient-to-r from-[#E50914] to-[#f40612] hover:from-[#f40612] hover:to-[#E50914] text-white px-6 py-3 rounded-xl transition-all duration-300 font-medium w-full shadow-lg"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
                     >
                       Subscribe Now
-                    </motion.button>
-                  </motion.div>
-                </motion.nav>
+                    </button>
+                  </div>
+                </nav>
               </div>
-            </motion.div>
+            </div>
           )}
         </AnimatePresence>
-      </motion.div>
-    </motion.header>
+      </div>
+    </header>
   );
 }
