@@ -90,6 +90,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/referral-policy" className="text-gray-400 hover:text-white text-sm transition-colors">
+                  Referral Policy
+                </Link>
+              </li>
+              <li>
                 <a href="#faq" className="text-gray-400 hover:text-white text-sm transition-colors">
                   FAQ
                 </a>

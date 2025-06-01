@@ -3,6 +3,7 @@ import { HomePage } from './pages/HomePage';
 import { ChannelsPage } from './pages/ChannelsPage';
 import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { TermsAndConditions } from './pages/TermsAndConditions';
+import { ReferralPolicy } from './pages/ReferralPolicy';
 
 export function App() {
   return (
@@ -13,6 +14,7 @@ export function App() {
           <Route path="/channels" element={<ChannelsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/referral-policy" element={<ReferralPolicy />} />
         </Routes>
       </div>
     </Router>
