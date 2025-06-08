@@ -3,12 +3,12 @@ import { Users, Play, Globe, Trophy } from 'lucide-react';
 export function LiveStats() {
   const stats = [{
     icon: <Users size={32} />,
-    value: '20M+',
+    value: '10k+',
     label: 'Active Users',
     description: 'Worldwide subscribers'
   }, {
     icon: <Play size={32} />,
-    value: '100K+',
+    value: '20k+',
     label: 'Hours Streamed',
     description: 'Daily streaming hours'
   }, {

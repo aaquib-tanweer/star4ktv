@@ -32,12 +32,35 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
+  // Handle hash-based navigation when page loads
+  useEffect(() => {
+    if (location.pathname === '/' && location.hash) {
+      const sectionId = location.hash.substring(1);
+      setTimeout(() => {
+        if (sectionId === 'contact') {
+          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        } else {
+          const section = document.getElementById(sectionId);
+          if (section) {
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      }, 100); // Small delay to ensure DOM is ready
+    }
+  }, [location]);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setIsMenuOpen(false);
   };
 
   const scrollToSection = (sectionId: string) => {
+    if (location.pathname !== '/') {
+      // If not on home page, navigate to home first, then scroll
+      window.location.href = `/#${sectionId}`;
+      return;
+    }
+    
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -46,6 +69,12 @@ export function Header() {
   };
 
   const scrollToFooter = () => {
+    if (location.pathname !== '/') {
+      // If not on home page, navigate to home first, then scroll to footer
+      window.location.href = '/#contact';
+      return;
+    }
+    
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     setIsMenuOpen(false);
   };
@@ -73,7 +102,7 @@ export function Header() {
               <Link to="/" onClick={handleHomeClick}>
                 <img 
                   src={logo} 
-                  alt="Star4KTV Logo" 
+                  alt="Star4KTV - Premium IPTV Streaming Service Logo" 
                   className="h-20 object-contain"
                 />
               </Link>
@@ -139,12 +168,14 @@ export function Header() {
             
             {/* Desktop Actions */}
             <div className="hidden md:flex items-center space-x-4">
-              <button 
-                onClick={() => scrollToSection('pricing')}
+              <a 
+                href="https://wa.me/12108073482?text=Hello%20Star4KTV%20Team%2C%0D%0A%0D%0AI%20am%20interested%20in%20subscribing%20to%20Star4KTV.%0D%0A%0D%0APlease%20provide%20me%20with%20the%20setup%20instructions%20and%20payment%20details.%0D%0A%0D%0AThank%20you%21%0D%0A%0D%0ABest%20regards"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-gradient-to-r from-[#E50914] to-[#f40612] hover:from-[#f40612] hover:to-[#E50914] text-white px-6 py-2.5 rounded-xl transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
               >
                 Subscribe Now
-              </button>
+              </a>
             </div>
             
             {/* Mobile Menu Button */}
@@ -235,12 +266,14 @@ export function Header() {
                   </div>
                   
                   <div className="pt-3">
-                    <button 
-                      onClick={() => scrollToSection('pricing')}
-                      className="bg-gradient-to-r from-[#E50914] to-[#f40612] hover:from-[#f40612] hover:to-[#E50914] text-white px-6 py-3 rounded-xl transition-all duration-300 font-medium w-full shadow-lg"
+                    <a 
+                      href="https://wa.me/12108073482?text=Hello%20Star4KTV%20Team%2C%0D%0A%0D%0AI%20am%20interested%20in%20subscribing%20to%20Star4KTV.%0D%0A%0D%0APlease%20provide%20me%20with%20the%20setup%20instructions%20and%20payment%20details.%0D%0A%0D%0AThank%20you%21%0D%0A%0D%0ABest%20regards"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-gradient-to-r from-[#E50914] to-[#f40612] hover:from-[#f40612] hover:to-[#E50914] text-white px-6 py-3 rounded-xl transition-all duration-300 font-medium w-full shadow-lg block text-center"
                     >
                       Subscribe Now
-                    </button>
+                    </a>
                   </div>
                 </nav>
               </div>

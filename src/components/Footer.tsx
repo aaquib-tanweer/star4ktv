@@ -1,4 +1,4 @@
-import { FacebookIcon, TwitterIcon, InstagramIcon, YoutubeIcon, MapPinIcon, MailIcon, PhoneIcon, ShieldCheckIcon } from 'lucide-react';
+import { MapPinIcon, MailIcon, PhoneIcon, ShieldCheckIcon, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ccIcons from './ccicons.webp';
 import logo from './star4ktv_logo.png';
@@ -13,27 +13,13 @@ export function Footer() {
             <div className="flex items-center mb-4">
               <img 
                 src={logo} 
-                alt="Star4KTV Logo" 
+                alt="Star4KTV - Premium IPTV Streaming Service with 10,000+ Live Channels" 
                 className="h-24 object-contain"
               />
             </div>
             <p className="text-gray-400 text-sm mb-4">
               Your premium IPTV streaming service with 7000+ channels from around the world.
             </p>
-            <div className="flex space-x-4 mb-4">
-              <a href="#" className="text-gray-400 hover:text-[#E50914] transition-colors">
-                <FacebookIcon size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-[#E50914] transition-colors">
-                <TwitterIcon size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-[#E50914] transition-colors">
-                <InstagramIcon size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-[#E50914] transition-colors">
-                <YoutubeIcon size={20} />
-              </a>
-            </div>
           </div>
 
           {/* Location */}
@@ -72,6 +58,17 @@ export function Footer() {
                   +1 210 8988 449
                 </a>
               </div>
+              <div className="flex items-center">
+                <MessageCircle size={16} className="mr-2 text-green-500 flex-shrink-0" />
+                <a 
+                  href="https://wa.me/12108074180?text=Hello%20Star4KTV%20Support%20Team%2C%0D%0A%0D%0AI%20need%20assistance%20with%20my%20IPTV%20service.%0D%0A%0D%0APlease%20help%20me%20with%20my%20query.%0D%0A%0D%0AThank%20you%21" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white text-sm transition-colors"
+                >
+                  WhatsApp: +1 210 807 4180
+                </a>
+              </div>
             </div>
           </div>
 
@@ -99,11 +96,6 @@ export function Footer() {
                   FAQ
                 </a>
               </li>
-              <li>
-                <a href="mailto:support@star4ktv.com" className="text-gray-400 hover:text-white text-sm transition-colors">
-                  Support
-                </a>
-              </li>
             </ul>
           </div>
 
@@ -121,7 +113,7 @@ export function Footer() {
             <div className="mb-4">
               <img 
                 src={ccIcons} 
-                alt="Accepted Payment Methods" 
+                alt="Secure Payment Methods - Visa, Mastercard, American Express, PayPal, Cryptocurrency" 
                 className="max-w-full h-auto max-h-12 object-contain"
               />
             </div>
@@ -136,7 +128,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-400 text-sm">
-            © 2024 Star4KTV. All rights reserved. | Premium IPTV Streaming Service
+            © 2020-2025 Star4KTV. All rights reserved. | Premium IPTV Streaming Service
           </p>
         </div>
       </div>

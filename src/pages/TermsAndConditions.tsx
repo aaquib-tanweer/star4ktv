@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { SEOHead } from '../components/SEOHead';
 import { ArrowLeftIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +12,12 @@ export function TermsAndConditions() {
 
   return (
     <div className="min-h-screen bg-[#121212] text-white">
+      <SEOHead 
+        title="Terms and Conditions - Star4KTV | IPTV Streaming Service Agreement"
+        description="Read Star4KTV's terms and conditions for our premium IPTV streaming service. Understand your rights and responsibilities as a subscriber."
+        keywords="terms and conditions, terms of service, Star4KTV terms, IPTV terms, streaming service agreement, user agreement"
+        url="https://star4ktv.com/terms-and-conditions"
+      />
       <Header />
       
       <div className="container mx-auto px-4 py-8 pt-24">

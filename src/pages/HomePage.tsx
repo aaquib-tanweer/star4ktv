@@ -9,12 +9,23 @@ import { PricingSection } from '../components/PricingSection';
 import { TestimonialsSection } from '../components/TestimonialsSection';
 import { FAQSection } from '../components/FAQSection';
 import { Footer } from '../components/Footer';
+import { SEOHead } from '../components/SEOHead';
 
 export function HomePage() {
   return (
     <div className="min-h-screen bg-[#121212] text-white">
+      <SEOHead 
+        title="Star4KTV - Premium IPTV Streaming Service | 10,000+ Live Channels"
+        description="Experience premium IPTV streaming with Star4KTV. Get access to 10,000+ live channels, 12+ OTT platforms, 4K Ultra HD quality, and 24/7 customer support. Subscribe now!"
+        keywords="IPTV, streaming service, live TV, 4K streaming, premium IPTV, live channels, OTT platforms, Star4KTV, IPTV subscription, streaming, television, movies, sports"
+        url="https://star4ktv.com/"
+      />
       <Header />
       <main>
+        {/* SEO H1 - Hidden but accessible to search engines */}
+        <h1 className="sr-only">
+          Star4KTV - Premium IPTV Streaming Service with 10,000+ Live Channels and 12+ OTT Platforms
+        </h1>
         <Hero />
         <div className="container mx-auto px-4 py-8">
           <ContentSection title="Trending Now" contents={[{

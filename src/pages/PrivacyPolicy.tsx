@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { SEOHead } from '../components/SEOHead';
 import { ArrowLeftIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +12,12 @@ export function PrivacyPolicy() {
 
   return (
     <div className="min-h-screen bg-[#121212] text-white">
+      <SEOHead 
+        title="Privacy Policy - Star4KTV | IPTV Streaming Service Data Protection"
+        description="Read Star4KTV's privacy policy to understand how we collect, use, and protect your personal information. Learn about our data practices and your privacy rights."
+        keywords="privacy policy, data protection, Star4KTV privacy, IPTV privacy policy, data security, user privacy"
+        url="https://star4ktv.com/privacy-policy"
+      />
       <Header />
       
       <div className="container mx-auto px-4 py-8 pt-24">

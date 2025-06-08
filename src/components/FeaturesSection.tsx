@@ -1,4 +1,4 @@
-import { Tv, Smartphone, Wifi, Download, Users, Video } from 'lucide-react';
+import { Tv, Smartphone, Wifi, Users, Video, Headphones } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export function FeaturesSection() {
@@ -15,10 +15,6 @@ export function FeaturesSection() {
     title: 'Live Sports',
     description: 'Stream live games and events in real-time'
   }, {
-    icon: <Download size={32} />,
-    title: 'Download & Go',
-    description: 'Watch offline on the mobile app'
-  }, {
     icon: <Users size={32} />,
     title: 'Multiple Profiles',
     description: 'Create up to 6 profiles for your household'
@@ -26,6 +22,10 @@ export function FeaturesSection() {
     icon: <Video size={32} />,
     title: 'No Ads',
     description: 'Enjoy uninterrupted entertainment'
+  }, {
+    icon: <Headphones size={32} />,
+    title: 'Customer Support',
+    description: '11:30 Central - 8:30 Central, Monday to Friday support available'
   }];
 
   const containerVariants = {
@@ -72,7 +72,7 @@ export function FeaturesSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          Why Choose Star4KTV
+          Why Choose Star4KTV - Premium IPTV Features
         </motion.h2>
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"

@@ -4,27 +4,39 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const heroSlides = [{
   id: 1,
-  title: 'Dune: Part Two',
-  description: 'Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family.',
-  image: 'https://image.tmdb.org/t/p/original/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg',
-  logo: 'https://www.themoviedb.org/t/p/original/d1QqwJGtlUUwlisWyuJLCiRN1Fm.png'
+  title: 'Superman',
+  description: 'David Corenswet stars as the Man of Steel in James Gunn\'s bold new take on the iconic hero. Experience the beginning of the new DCU with kindness, hope, and justice.',
+  image: 'https://m.media-amazon.com/images/M/MV5BYzE5NzlkZWEtMmEwOC00YWY2LTkyMjctM2E3MDZmYjI5NGQyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
+  logo: null
 }, {
   id: 2,
-  title: 'Formula One World Championship',
-  description: "Experience the ultimate adrenaline rush with Formula One racing. Watch live races, exclusive driver interviews, behind-the-scenes content, and all the high-speed action from the world's premier motorsport championship.",
-  image: 'https://automobilist.com/cdn/shop/collections/ATM_Collection_Mercedes-AMGPetronasF1Team_a262c453-13c5-4f2d-bf9d-7a88b1c89813.jpg?v=1683894875&width=2048',
+  title: 'The Fantastic Four: First Steps',
+  description: 'Marvel\'s First Family arrives in the MCU! Pedro Pascal, Vanessa Kirby, Joseph Quinn, and Ebon Moss-Bachrach face their greatest challenge yet against the cosmic threat of Galactus.',
+  image: 'https://m.media-amazon.com/images/M/MV5BYjRlY2JkZjgtNDY3Yy00MzFmLWI1MGYtN2Y1ZTVkY2FhYTVkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
   logo: null
 }, {
   id: 3,
-  title: 'Spider-Man: No Way Home',
-  description: 'Peter Parker seeks help from Doctor Strange when his secret identity is revealed, but the spell goes wrong and dangerous villains from other dimensions start to appear.',
-  image: 'https://image.tmdb.org/t/p/original/14QbnygCuTO0vl7CAFmPf1fgZfV.jpg',
+  title: 'Chhaava',
+  description: 'Vicky Kaushal transforms into the great Maratha warrior Chhatrapati Sambhaji Maharaj. Witness the epic tale of courage, honor, and the fight for Swarajya.',
+  image: 'https://m.media-amazon.com/images/M/MV5BMGMwZmQ4NzMtODkwOC00MzhmLWI5YWYtMmIwYjBkYzFiMjk2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
   logo: null
 }, {
   id: 4,
-  title: 'Deadpool & Wolverine',
-  description: 'The merc with a mouth teams up with the legendary Wolverine for an action-packed adventure that breaks all the rules.',
-  image: 'https://image.tmdb.org/t/p/original/yDHYTfA3R0jFYba16jBB1ef8oIt.jpg',
+  title: 'War 2',
+  description: 'Hrithik Roshan returns with N.T. Rama Rao Jr. in this high-octane action thriller. Get ready for explosive action and breathtaking stunts in the YRF Spy Universe.',
+  image: 'https://m.media-amazon.com/images/M/MV5BMzQ2YzYwYzItNjBkZC00MGZlLWE3OGEtYzVhNDFkMzA1ODdlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
+  logo: null
+}, {
+  id: 5,
+  title: 'Sikandar',
+  description: 'Salman Khan brings his signature charisma to this action-packed drama directed by A.R. Murugadoss. Experience the power of redemption and transformation in this Eid blockbuster.',
+  image: 'https://m.media-amazon.com/images/M/MV5BODg3NGRhMDYtYzVjNy00YzFjLWJkZWQtNGI4ZjdjMGJkMTlhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
+  logo: null
+}, {
+  id: 6,
+  title: 'Avengers: Doomsday',
+  description: 'Robert Downey Jr. returns to the MCU as the iconic villain Doctor Doom. The Avengers face their greatest threat yet in this epic conclusion directed by the Russo Brothers.',
+  image: 'https://m.media-amazon.com/images/M/MV5BNzI3NDg1MzgtN2I1OS00MWJjLWI5NGYtYTNlOGU2ZjdkNjIzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
   logo: null
 }];
 

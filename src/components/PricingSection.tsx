@@ -7,28 +7,28 @@ export function PricingSection() {
     price: '20',
     period: 'month',
     devices: '1 device',
-    features: ['HD streaming', '1 device access', 'Movies & TV shows', 'Live sports events', 'Cancel anytime'],
+    features: ['5 OTT Platforms', '3,000 Live Channels', 'HD streaming', '1 device access', 'Movies & TV shows', 'Live sports events', 'Cancel anytime'],
     popular: false
   }, {
     name: 'Gold',
     price: '220',
     period: 'year',
     devices: '1 device',
-    features: ['4K Ultra HD', '1 device access', 'Movies & TV shows', 'Live sports events', 'EPG support', 'Catch-up TV', 'Save $20 vs monthly'],
+    features: ['8 OTT Platforms', '5,000+ Live Channels', '4K Ultra HD', '1 device access', 'Movies & TV shows', 'Live sports events', 'EPG support', 'Catch-up TV',],
     popular: true
   }, {
     name: 'Platinum',
     price: '340',
     period: '2 years',
     devices: '2 devices',
-    features: ['4K Ultra HD', '2 devices access', 'Movies & TV shows', 'Live sports events', 'EPG support', 'Catch-up TV', 'Multi-device streaming', 'Save $140 vs monthly'],
+    features: ['10+ OTT Platforms', '8,000+ Live Channels', '4K Ultra HD', '2 devices access', 'Movies & TV shows', 'Live sports events', 'EPG support', 'Catch-up TV', 'Multi-device streaming',],
     popular: false
   }, {
     name: 'Diamond',
     price: '500',
     period: '5 years',
     devices: '3 devices',
-    features: ['4K Ultra HD', '3 devices access', 'Movies & TV shows', 'Live sports events', 'EPG support', 'Catch-up TV', 'Multi-device streaming', 'Premium support', 'Save $700 vs monthly'],
+    features: ['12+ OTT Platforms', '10,000+ Live Channels', '4K Ultra HD', '3 devices access', 'Movies & TV shows', 'Live sports events', 'EPG support', 'Catch-up TV', 'Multi-device streaming', 'Premium support',],
     popular: false
   }];
 
@@ -72,14 +72,43 @@ export function PricingSection() {
   };
 
   return (
-    <motion.div 
-      id="pricing" 
-      className="py-20 relative"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
-      variants={containerVariants}
-    >
+    <>
+      {/* Structured Data for Pricing */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Star4KTV IPTV Streaming Service",
+            "description": "Premium IPTV streaming service with live channels and OTT platforms",
+            "brand": {
+              "@type": "Brand",
+              "name": "Star4KTV"
+            },
+            "offers": plans.map(plan => ({
+              "@type": "Offer",
+              "name": `${plan.name} Plan`,
+              "description": `Star4KTV ${plan.name} plan with ${plan.features.join(', ')}`,
+              "price": plan.price,
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock",
+              "validFrom": "2025-01-27",
+              "priceValidUntil": "2025-12-31",
+              "url": "https://star4ktv.com/#pricing"
+            }))
+          })
+        }}
+      />
+      
+      <motion.div 
+        id="pricing" 
+        className="py-20 relative"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={containerVariants}
+      >
       {/* Background gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#E50914]/5 via-transparent to-purple-500/5"></div>
       
@@ -240,7 +269,9 @@ export function PricingSection() {
 
                 {/* CTA Button */}
                 <motion.a 
-                  href={`mailto:join@star4ktv.com?subject=Star4KTV ${plan.name} Plan Subscription&body=Hello Star4KTV Team,%0D%0A%0D%0AI am interested in subscribing to the ${plan.name} plan for $${plan.price}/${plan.period}.%0D%0A%0D%0APlease provide me with the setup instructions and payment details.%0D%0A%0D%0AThank you!%0D%0A%0D%0ABest regards`}
+                  href={`https://wa.me/12108073482?text=Hello%20Star4KTV%20Team%2C%0D%0A%0D%0AI%20am%20interested%20in%20subscribing%20to%20the%20${plan.name}%20plan%20for%20$${plan.price}/${plan.period}.%0D%0A%0D%0APlease%20provide%20me%20with%20the%20setup%20instructions%20and%20payment%20details.%0D%0A%0D%0AThank%20you%21%0D%0A%0D%0ABest%20regards`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`w-full py-4 rounded-xl font-semibold transition-all duration-300 backdrop-blur-sm border relative overflow-hidden group/btn text-center block ${
                     plan.popular 
                       ? 'bg-white/20 hover:bg-white/30 text-white border-white/30 hover:border-white/50 shadow-lg hover:shadow-xl' 
@@ -291,7 +322,7 @@ export function PricingSection() {
             whileInView={{ opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
-            All plans include our 7-day money-back guarantee and 24/7 customer support
+            All plans include our 30-day money-back guarantee and customer support 9 hours 6 days a week
           </motion.p>
           <motion.div 
             className="flex flex-wrap justify-center gap-4 text-sm text-gray-500"
@@ -316,5 +347,6 @@ export function PricingSection() {
         </motion.div>
       </div>
     </motion.div>
+    </>
   );
 }

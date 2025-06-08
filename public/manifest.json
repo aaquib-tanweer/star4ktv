@@ -1,0 +1,26 @@
+{
+  "name": "Star4KTV - Premium IPTV Streaming Service",
+  "short_name": "Star4KTV",
+  "description": "Premium IPTV streaming service with 10,000+ live channels and 12+ OTT platforms",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#E50914",
+  "icons": [
+    {
+      "src": "/star4ktv_logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/star4ktv_logo.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["entertainment", "video", "streaming"],
+  "lang": "en-US",
+  "orientation": "portrait-primary"
+} 

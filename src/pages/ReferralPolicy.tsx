@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { SEOHead } from '../components/SEOHead';
 
 export function ReferralPolicy() {
   const navigate = useNavigate();
@@ -71,6 +72,12 @@ export function ReferralPolicy() {
 
   return (
     <>
+      <SEOHead 
+        title="Referral Program - Star4KTV | Earn Rewards for Sharing IPTV Service"
+        description="Join Star4KTV's referral program and earn 2 months free for every friend you refer. Share our premium IPTV service and get rewarded for spreading the word."
+        keywords="referral program, earn rewards, Star4KTV referral, IPTV referral, refer friends, streaming rewards, affiliate program"
+        url="https://star4ktv.com/referral-policy"
+      />
       <Header />
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
         {/* Back Button */}
@@ -264,7 +271,9 @@ export function ReferralPolicy() {
               </p>
               
               <motion.a
-                href="mailto:join@star4ktv.com"
+                href="https://wa.me/12108073482?text=Hello%20Star4KTV%20Team%2C%0D%0A%0D%0AI%20have%20a%20question%20about%20the%20referral%20program.%0D%0A%0D%0APlease%20provide%20me%20with%20more%20information.%0D%0A%0D%0AThank%20you%21%0D%0A%0D%0ABest%20regards"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center bg-gradient-to-r from-[#E50914] to-[#f40612] hover:from-[#f40612] hover:to-[#E50914] text-white px-6 py-3 rounded-xl transition-all duration-300 font-medium shadow-lg hover:shadow-xl"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
