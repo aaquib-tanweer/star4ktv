@@ -1,42 +1,55 @@
 import { useEffect, useState } from 'react';
 import { PlayIcon, InfoIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import dayslaterImg from './28dayslater.jpg';
+import housefull5Img from './housefull5.jpg';
+import ballerinaImg from './ballerina.jpg';
+import sitarezameenparImg from './sitarezameenpar.jpg';
+import supermanImg from './superman.jpg';
+import fantastic4Img from './fantastic4.jpg';
+import avatarImg from './avatar.jpg';
 
 const heroSlides = [{
   id: 1,
-  title: 'Superman',
-  description: 'David Corenswet stars as the Man of Steel in James Gunn\'s bold new take on the iconic hero. Experience the beginning of the new DCU with kindness, hope, and justice.',
-  image: 'https://m.media-amazon.com/images/M/MV5BYzE5NzlkZWEtMmEwOC00YWY2LTkyMjctM2E3MDZmYjI5NGQyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
+  title: '28 Days Later',
+  description: 'Danny Boyle returns to the zombie apocalypse that started it all. Experience the terror and survival in this highly anticipated sequel to the groundbreaking horror classic.',
+  image: dayslaterImg,
   logo: null
 }, {
   id: 2,
-  title: 'The Fantastic Four: First Steps',
-  description: 'Marvel\'s First Family arrives in the MCU! Pedro Pascal, Vanessa Kirby, Joseph Quinn, and Ebon Moss-Bachrach face their greatest challenge yet against the cosmic threat of Galactus.',
-  image: 'https://m.media-amazon.com/images/M/MV5BYjRlY2JkZjgtNDY3Yy00MzFmLWI1MGYtN2Y1ZTVkY2FhYTVkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
+  title: 'Housefull 5',
+  description: 'Akshay Kumar leads the gang in another hilarious adventure filled with comedy, confusion, and chaos. Get ready for the biggest laugh riot of the year!',
+  image: housefull5Img,
   logo: null
 }, {
   id: 3,
-  title: 'Chhaava',
-  description: 'Vicky Kaushal transforms into the great Maratha warrior Chhatrapati Sambhaji Maharaj. Witness the epic tale of courage, honor, and the fight for Swarajya.',
-  image: 'https://m.media-amazon.com/images/M/MV5BMGMwZmQ4NzMtODkwOC00MzhmLWI5YWYtMmIwYjBkYzFiMjk2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
+  title: 'Ballerina',
+  description: 'Ana de Armas takes center stage in this action-packed John Wick universe spinoff. Witness grace, elegance, and deadly precision in this ballet of bullets.',
+  image: ballerinaImg,
   logo: null
 }, {
   id: 4,
-  title: 'War 2',
-  description: 'Hrithik Roshan returns with N.T. Rama Rao Jr. in this high-octane action thriller. Get ready for explosive action and breathtaking stunts in the YRF Spy Universe.',
-  image: 'https://m.media-amazon.com/images/M/MV5BMzQ2YzYwYzItNjBkZC00MGZlLWE3OGEtYzVhNDFkMzA1ODdlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
+  title: 'Sitarey Zameen Par',
+  description: 'Aamir Khan returns with another heartwarming tale that celebrates the human spirit. Experience a story that will touch your heart and inspire your soul.',
+  image: sitarezameenparImg,
   logo: null
 }, {
   id: 5,
-  title: 'Sikandar',
-  description: 'Salman Khan brings his signature charisma to this action-packed drama directed by A.R. Murugadoss. Experience the power of redemption and transformation in this Eid blockbuster.',
-  image: 'https://m.media-amazon.com/images/M/MV5BODg3NGRhMDYtYzVjNy00YzFjLWJkZWQtNGI4ZjdjMGJkMTlhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
+  title: 'Superman',
+  description: 'David Corenswet stars as the Man of Steel in James Gunn\'s bold new take on the iconic hero. Experience the beginning of the new DCU with kindness, hope, and justice.',
+  image: supermanImg,
   logo: null
 }, {
   id: 6,
-  title: 'Avengers: Doomsday',
-  description: 'Robert Downey Jr. returns to the MCU as the iconic villain Doctor Doom. The Avengers face their greatest threat yet in this epic conclusion directed by the Russo Brothers.',
-  image: 'https://m.media-amazon.com/images/M/MV5BNzI3NDg1MzgtN2I1OS00MWJjLWI5NGYtYTNlOGU2ZjdkNjIzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
+  title: 'Fantastic Four',
+  description: 'Marvel\'s First Family arrives in the MCU! Pedro Pascal, Vanessa Kirby, Joseph Quinn, and Ebon Moss-Bachrach face their greatest challenge yet.',
+  image: fantastic4Img,
+  logo: null
+}, {
+  id: 7,
+  title: 'Avatar',
+  description: 'James Cameron continues the epic saga of Pandora. Dive deeper into the world of the Na\'vi with stunning visuals and an unforgettable adventure.',
+  image: avatarImg,
   logo: null
 }];
 
@@ -110,7 +123,9 @@ export function Hero() {
               style={{
                 backgroundImage: `url(${slide.image})`,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center'
+                backgroundPosition: slide.title === 'Superman' ? 'center 20%' : 
+                                  slide.title === 'Fantastic Four' ? 'center 15%' : 
+                                  'center top'
               }}
               initial={{ opacity: 0, scale: 1.1 }}
               animate={{ opacity: 1, scale: 1 }}
