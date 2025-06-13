@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { HomePage } from './pages/HomePage';
 import { ChannelsPage } from './pages/ChannelsPage';
 import { PrivacyPolicy } from './pages/PrivacyPolicy';
@@ -31,7 +31,7 @@ function ScrollToSection() {
 
 export function App() {
   return (
-    <Router>
+    <Router basename="/">
       <div className="min-h-screen bg-[#121212] text-white">
         <ScrollToSection />
         <Routes>
@@ -40,6 +40,7 @@ export function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/referral-policy" element={<ReferralPolicy />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </Router>
