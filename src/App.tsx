@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
 import { HomePage } from './pages/HomePage';
 import { ChannelsPage } from './pages/ChannelsPage';
 import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { TermsAndConditions } from './pages/TermsAndConditions';
 import { ReferralPolicy } from './pages/ReferralPolicy';
+import { useEffect } from 'react';
 
 function ScrollToSection() {
   const location = useLocation();
@@ -30,24 +30,6 @@ function ScrollToSection() {
 }
 
 export function App() {
-  useEffect(() => {
-    // Handle page refresh - only redirect to homepage if on homepage
-    const handleBeforeUnload = () => {
-      if (window.location.pathname === '/') {
-        sessionStorage.setItem('pageRefreshed', 'true');
-      }
-    };
-
-    // Check if page was refreshed and we're on the homepage
-    if (sessionStorage.getItem('pageRefreshed') && window.location.pathname === '/') {
-      sessionStorage.removeItem('pageRefreshed');
-      window.location.href = '/';
-    }
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, []);
-
   return (
     <Router>
       <div className="min-h-screen bg-[#121212] text-white">
