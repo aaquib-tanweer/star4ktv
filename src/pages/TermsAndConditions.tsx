@@ -211,11 +211,13 @@ export function TermsAndConditions() {
               <p>For questions regarding these terms and conditions, please contact us:</p>
               <div className="mt-4 p-4 bg-gray-800 rounded-lg">
                 <p><strong>Star4KTV</strong></p>
-                <p>702 San Pedro Ave</p>
-                <p>San Antonio, TX 78212</p>
+                <p>601 W 3rd St</p>
+                <p>Austin, TX 78703</p>
+                <p>United States</p>
                 <p>Email: <a href="mailto:legal@star4ktv.com" className="text-[#E50914] hover:underline">legal@star4ktv.com</a></p>
                 <p>Support: <a href="mailto:support@star4ktv.com" className="text-[#E50914] hover:underline">support@star4ktv.com</a></p>
-                <p>Phone: <a href="tel:+12105551234" className="text-[#E50914] hover:underline">+1 (210) 555-1234</a></p>
+                <p>Phone: <a href="tel:+12108988449" className="text-[#E50914] hover:underline">+1 (210) 898-8449</a></p>
+                <p>WhatsApp: <a href="https://wa.me/12108074180" className="text-[#E50914] hover:underline" target="_blank" rel="noopener noreferrer">+1 (210) 807-4180</a></p>
               </div>
             </section>
           </div>
