@@ -1,5 +1,4 @@
 import { ContentCard } from './ContentCard';
-import { ChevronRightIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface Content {
@@ -47,7 +46,7 @@ export function ContentSection({ title, contents }: ContentSectionProps) {
       variants={containerVariants}
     >
       <motion.div 
-        className="flex justify-between items-center mb-4"
+        className="mb-4"
         variants={itemVariants}
       >
         <motion.h2 
@@ -59,26 +58,8 @@ export function ContentSection({ title, contents }: ContentSectionProps) {
         >
           {title}
         </motion.h2>
-        <motion.button 
-          className="text-gray-400 hover:text-white flex items-center text-sm"
-          initial={{ x: 20, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          whileHover={{ 
-            x: 5,
-            transition: { duration: 0.2 }
-          }}
-        >
-          See all 
-          <motion.div
-            animate={{ x: [0, 3, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <ChevronRightIcon size={16} className="ml-1" />
-          </motion.div>
-        </motion.button>
       </motion.div>
+      
       <motion.div 
         className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4"
         variants={containerVariants}

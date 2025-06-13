@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { MenuIcon, XIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import logo from './star4ktv_logo.png';
@@ -9,6 +9,7 @@ export function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,22 +57,29 @@ export function Header() {
 
   const scrollToSection = (sectionId: string) => {
     if (location.pathname !== '/') {
-      // If not on home page, navigate to home first, then scroll
-      window.location.href = `/#${sectionId}`;
+      // If not on home page, navigate to home with state
+      navigate('/', { state: { scrollTo: sectionId } });
       return;
     }
     
     const section = document.getElementById(sectionId);
     if (section) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const headerOffset = 100;
+      const elementPosition = section.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
     setIsMenuOpen(false);
   };
 
   const scrollToFooter = () => {
     if (location.pathname !== '/') {
-      // If not on home page, navigate to home first, then scroll to footer
-      window.location.href = '/#contact';
+      // If not on home page, navigate to home with state
+      navigate('/', { state: { scrollTo: 'contact' } });
       return;
     }
     

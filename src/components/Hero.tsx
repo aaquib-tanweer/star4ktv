@@ -205,22 +205,13 @@ export function Hero() {
                   >
                     <motion.button 
                       onClick={scrollToPricing}
-                      className="bg-[#E50914] hover:bg-[#f40612] text-white font-semibold px-6 py-3 rounded-md flex items-center transition"
+                      className="bg-[#E50914] hover:bg-[#f40612] text-white font-semibold px-8 py-3 rounded-md flex items-center transition"
                       variants={buttonVariants}
                       whileHover="hover"
                       whileTap="tap"
                     >
-                      <PlayIcon size={20} className="mr-2" />
+                      <PlayIcon size={24} className="mr-2" />
                       {slide.title === 'IPL 2024' ? 'Watch Live' : 'Play'}
-                    </motion.button>
-                    <motion.button 
-                      className="bg-gray-700/80 hover:bg-gray-600/80 text-white font-semibold px-6 py-3 rounded-md flex items-center transition"
-                      variants={buttonVariants}
-                      whileHover="hover"
-                      whileTap="tap"
-                    >
-                      <InfoIcon size={20} className="mr-2" />
-                      More Info
                     </motion.button>
                   </motion.div>
                 </motion.div>

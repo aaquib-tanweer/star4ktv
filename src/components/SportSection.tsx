@@ -1,18 +1,14 @@
-import { PlayIcon, PlusIcon } from 'lucide-react';
+import { PlayIcon, StarIcon } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-interface Sport {
-  id: number;
+interface SportProps {
   title: string;
   image: string;
   league: string;
   time: string;
 }
 
-interface SportSectionProps {
-  sports: Sport[];
-}
-
-export function SportSection({ sports }: SportSectionProps) {
+export function SportSection({ sports }: { sports: SportProps[] }) {
   const scrollToPricing = () => {
     const pricingSection = document.getElementById('pricing');
     if (pricingSection) {
@@ -21,40 +17,57 @@ export function SportSection({ sports }: SportSectionProps) {
   };
 
   return (
-    <div className="mb-12">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl md:text-2xl font-semibold">
-          Live & Upcoming Sports
-        </h2>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {sports.map(sport => (
-          <div key={sport.id} className="relative group overflow-hidden rounded-lg bg-gray-900">
-            <img src={sport.image} alt={sport.title} className="w-full h-48 object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90"></div>
-            <div className="absolute bottom-0 left-0 right-0 p-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-red-500 font-semibold">
-                  {sport.league}
-                </span>
-                <span className="text-sm text-gray-400">{sport.time}</span>
-              </div>
-              <h3 className="text-lg font-semibold mb-2">{sport.title}</h3>
-              <div className="flex space-x-2">
-                <button 
+    <div className="py-8">
+      <h2 className="text-2xl font-bold mb-6">Live & Upcoming Sports</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {sports.map((sport, index) => (
+          <motion.div 
+            key={index} 
+            className="group relative overflow-hidden rounded-lg transition-transform duration-300 hover:z-10"
+            whileHover={{ 
+              scale: 1.05, 
+              y: -8,
+              transition: { duration: 0.3, ease: "easeOut" }
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+          >
+            {/* Image */}
+            <motion.img 
+              src={sport.image} 
+              alt={sport.title} 
+              className="w-full h-48 object-cover" 
+              initial={{ scale: 1.1 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.6 }}
+            />
+            
+            {/* Hover Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+              <div className="absolute bottom-0 left-0 right-0 p-3 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <h3 className="text-sm md:text-base font-semibold mb-1 text-white">
+                  {sport.title}
+                </h3>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center">
+                    <span className="text-xs text-gray-300">{sport.league}</span>
+                  </div>
+                  <span className="text-xs text-[#E50914] font-medium">{sport.time}</span>
+                </div>
+                <motion.button 
                   onClick={scrollToPricing}
-                  className="bg-[#E50914] hover:bg-[#f40612] text-white px-4 py-2 rounded-md flex items-center transition"
+                  className="w-full bg-[#E50914] hover:bg-[#f40612] text-white py-2 rounded-md flex items-center justify-center transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <PlayIcon size={16} className="mr-2" />
+                  <PlayIcon size={20} className="mr-2" />
                   Watch Live
-                </button>
-                <button className="bg-gray-700/80 hover:bg-gray-600/80 text-white px-4 py-2 rounded-md flex items-center transition">
-                  <PlusIcon size={16} className="mr-2" />
-                  Add to Calendar
-                </button>
+                </motion.button>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
