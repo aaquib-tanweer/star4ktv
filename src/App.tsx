@@ -10,32 +10,19 @@ function ScrollToSection() {
   const location = useLocation();
   
   useEffect(() => {
-    // Check if we have a scrollTo state
-    if (location.pathname === '/' && location.state?.scrollTo) {
-      const sectionId = location.state.scrollTo;
-      
-      // Wait for the page to be fully loaded
-      const scrollToSection = () => {
-        const section = document.getElementById(sectionId);
-        if (section) {
-          const headerOffset = 100;
-          const elementPosition = section.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-          
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-        }
-      };
-
-      // Try to scroll immediately
-      scrollToSection();
-      
-      // Also try after a short delay to ensure the page is fully rendered
-      const timeoutId = setTimeout(scrollToSection, 100);
-      
-      return () => clearTimeout(timeoutId);
+    if (location.pathname === '/' && location.hash) {
+      const sectionId = location.hash.substring(1);
+      const section = document.getElementById(sectionId);
+      if (section) {
+        const headerOffset = 80;
+        const elementPosition = section.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
     }
   }, [location]);
 
@@ -44,13 +31,15 @@ function ScrollToSection() {
 
 export function App() {
   useEffect(() => {
-    // Handle page refresh - redirect to homepage top
+    // Handle page refresh - only redirect to homepage if on homepage
     const handleBeforeUnload = () => {
-      sessionStorage.setItem('pageRefreshed', 'true');
+      if (window.location.pathname === '/') {
+        sessionStorage.setItem('pageRefreshed', 'true');
+      }
     };
 
-    // Check if page was refreshed
-    if (sessionStorage.getItem('pageRefreshed')) {
+    // Check if page was refreshed and we're on the homepage
+    if (sessionStorage.getItem('pageRefreshed') && window.location.pathname === '/') {
       sessionStorage.removeItem('pageRefreshed');
       window.location.href = '/';
     }
