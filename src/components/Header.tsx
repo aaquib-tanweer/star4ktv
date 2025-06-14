@@ -57,8 +57,8 @@ export function Header() {
 
   const scrollToSection = (sectionId: string) => {
     if (location.pathname !== '/') {
-      // If not on home page, navigate to home with state
-      navigate('/', { state: { scrollTo: sectionId } });
+      // If not on home page, navigate to home with hash
+      window.location.href = `/#${sectionId}`;
       return;
     }
     
@@ -78,8 +78,8 @@ export function Header() {
 
   const scrollToFooter = () => {
     if (location.pathname !== '/') {
-      // If not on home page, navigate to home with state
-      navigate('/', { state: { scrollTo: 'contact' } });
+      // If not on home page, navigate to home with contact hash
+      window.location.href = '/#contact';
       return;
     }
     

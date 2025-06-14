@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { PlayIcon, InfoIcon } from 'lucide-react';
+import { PlayIcon} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import dayslaterImg from './28dayslater.jpg';
 import housefull5Img from './housefull5.jpg';

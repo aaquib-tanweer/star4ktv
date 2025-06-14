@@ -10,21 +10,35 @@ function ScrollToSection() {
   const location = useLocation();
   
   useEffect(() => {
-    if (location.pathname === '/' && location.hash) {
+    if (location.hash) {
       const sectionId = location.hash.substring(1);
-      const section = document.getElementById(sectionId);
-      if (section) {
-        const headerOffset = 80;
-        const elementPosition = section.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
+      const scrollToElement = () => {
+        if (sectionId === 'contact') {
+          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        } else {
+          const section = document.getElementById(sectionId);
+          if (section) {
+            const headerOffset = 100;
+            const elementPosition = section.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        }
+      };
+
+      // Initial scroll attempt
+      scrollToElement();
+
+      // Retry after a short delay to ensure DOM is ready
+      const timeoutId = setTimeout(scrollToElement, 100);
+
+      return () => clearTimeout(timeoutId);
     }
-  }, [location]);
+  }, [location.hash]);
 
   return null;
 }
