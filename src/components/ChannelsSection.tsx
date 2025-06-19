@@ -1,156 +1,394 @@
-const ChannelSection = ({ title, channels }: { title: string; channels: string[] }) => (
-  <div className="mb-16">
-    <div className="flex justify-center mb-8">
-      <div className="relative">
-        <h2 className="text-2xl md:text-3xl font-bold text-white text-center px-8 py-3">
-          {title}
-        </h2>
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-[#E50914] rounded-full"></div>
-      </div>
+import { useState } from 'react';
+import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const initialChannelsToShow = 10;
+
+const CATEGORY_KEYS = [
+  'Cricket Channels',
+  'NCAAB Channels',
+  'NCAAF Channels',
+  'English Channels',
+  'Hindi Channels',
+  'Tamil Channels',
+  'Telugu Channels',
+  'Malayalam Channels',
+  'Gujarati Channels',
+  'Punjabi Channels',
+  'Nepali Channels',
+  'Pakistani Channels',
+  'MARATHI CHANNELS',
+  'Islamic Channels',
+  'Arabic Channels',
+  'Kids Channels',
+  'Filipino Channels',
+  'Bengali Channels',
+  'Afghani Channels',
+  'Urdu Channels',
+  'African/Jamaican Channels',
+  'KANNADA CHANNELS',
+  'Portuguese Channels',
+  'Spanish Channels',
+  'French Channels',
+  'Russian Channels',
+  'Polish Channels',
+  'Chinese Channels',
+  'Sinhala Channels',
+  'Italian Channels',
+  'Oriya Channels',
+  'Jamaica Channels',
+  'Adult Channels',
+  'Bangla Channels',
+  'Ex-Yugoslavia Channels',
+  'Persian Channels',
+  'Ukrainian Channels',
+  'Israeli Channels'
+] as const;
+type CategoryKey = typeof CATEGORY_KEYS[number];
+
+type ChannelMap = { [K in CategoryKey]: string };
+type ChannelsData = { [key: string]: string[] };
+
+const ChannelTile = ({
+  title,
+  channels,
+  expanded,
+  onClick,
+  showAll,
+  onShowAllToggle
+}: {
+  title: string;
+  channels: string[];
+  expanded: boolean;
+  onClick: () => void;
+  showAll: boolean;
+  onShowAllToggle: (e: React.MouseEvent) => void;
+}) => {
+  const displayedChannels = showAll ? channels : channels.slice(0, initialChannelsToShow);
+  return (
+    <div className="border border-gray-700/50 rounded-xl overflow-hidden bg-black/80">
+      <button
+        onClick={onClick}
+        className="w-full px-6 py-4 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-[#E50914] transition-colors"
+      >
+        <span className="text-lg font-semibold text-white text-left">{title}</span>
+        {expanded ? (
+          <ChevronUpIcon className="text-[#E50914] w-6 h-6" />
+        ) : (
+          <ChevronDownIcon className="text-[#E50914] w-6 h-6" />
+        )}
+      </button>
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="overflow-hidden"
+          >
+            <div className="p-4 bg-gray-900/70">
+              {channels.length === 0 ? (
+                <div className="text-center text-gray-400 py-8 text-sm">No channels available in this category.</div>
+              ) : (
+                <>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-2">
+                    {displayedChannels.map((channel, idx) => (
+                      <div
+                        key={idx}
+                        className="bg-gray-900/60 hover:bg-gray-800/80 text-white p-2 rounded text-center text-xs font-medium transition-all duration-200 border border-gray-700/20 hover:border-[#E50914]/40"
+                      >
+                        {channel}
+                      </div>
+                    ))}
+                  </div>
+                  {channels.length > initialChannelsToShow && (
+                    <div className="mt-3 text-center">
+                      <button
+                        onClick={onShowAllToggle}
+                        className="text-[#E50914] hover:text-white bg-gray-800/50 hover:bg-[#E50914] px-3 py-1 rounded-lg transition-all duration-300 text-xs font-medium"
+                      >
+                        {showAll ? 'Show Less' : `Show More (${channels.length - initialChannelsToShow} more)`}
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-      {channels.map((channel, index) => (
-        <div 
-          key={index} 
-          className="bg-gray-900/50 hover:bg-gray-800/70 text-white p-4 rounded-xl text-center transition-all duration-300 hover:transform hover:scale-105 hover:shadow-lg border border-gray-700/30 hover:border-[#E50914]/50 backdrop-blur-sm"
-        >
-          <span className="text-sm font-medium">{channel}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-);
+  );
+};
 
 export function ChannelsSection() {
-  const channels = {
+  const channelMap: ChannelMap = {
+    'Hindi Channels': 'hindi',
+    'Tamil Channels': 'tamil',
+    'Gujarati Channels': 'gujrati',
+    'Punjabi Channels': 'punjabi',
+    'Nepali Channels': 'nepalese',
+    'Pakistani Channels': 'urdu',
+    'MARATHI CHANNELS': 'marathi',
+    'Islamic Channels': 'islamic',
+    'Arabic Channels': 'arabic',
+    'Telugu Channels': 'telugu',
+    'Kids Channels': 'kids',
+    'Filipino Channels': 'filipino',
+    'Bengali Channels': 'bangla',
+    'English Channels': 'english',
+    'Afghani Channels': 'afghan',
+    'Malayalam Channels': 'malayalam',
+    'Urdu Channels': 'urdu',
+    'African/Jamaican Channels': 'jamaica',
+    'KANNADA CHANNELS': 'kannada',
+    'Cricket Channels': 'sports',
+    'Portuguese Channels': 'portuguese',
+    'Spanish Channels': 'spanish',
+    'French Channels': 'french',
+    'Russian Channels': 'russian',
+    'Polish Channels': 'polish',
+    'Chinese Channels': 'chinese',
+    'Sinhala Channels': 'sinhalse',
+    'Italian Channels': 'italian',
+    'NCAAB Channels': 'ncaab',
+    'Oriya Channels': 'oriya',
+    'Jamaica Channels': 'jamaica',
+    'Adult Channels': 'adult',
+    'Bangla Channels': 'bangla',
+    'Ex-Yugoslavia Channels': 'exyogoslavia',
+    'NCAAF Channels': 'ncaaf',
+    'Persian Channels': 'persian',
+    'Ukrainian Channels': 'ukrain',
+    'Israeli Channels': 'israel'
+  };
+
+  const channels: ChannelsData = {
+    sports: [
+      "SKY SPORTS MAIN EVENT", "SKY SPORTS PREMIER LEAGUE", "SKY SPORTS FOOTBALL", "SKY SPORTS CRICKET", 
+      "SKY SPORTS F1", "SKY SPORTS GOLF", "SKY SPORTS ACTION", "SKY SPORTS ARENA", "SKY SPORTS MIX",
+      "BT SPORT 1", "BT SPORT 2", "BT SPORT 3", "BT SPORT ESPN", "EUROSPORT 1", "EUROSPORT 2",
+      "PREMIER SPORTS 1", "PREMIER SPORTS 2", "RACING TV", "WWE NETWORK", "UFC FIGHT PASS",
+      "BEIN SPORTS 1", "BEIN SPORTS 2", "BEIN SPORTS 3", "ESPN", "ESPN 2", "FOX SPORTS 1", "FOX SPORTS 2",
+      "TENNIS CHANNEL", "NBA TV", "NFL NETWORK", "MLB NETWORK", "NHL NETWORK", "GOLF CHANNEL",
+      "WILLOW CRICKET", "TEN SPORTS", "SONY SIX", "STAR SPORTS 1", "STAR SPORTS 2", "STAR SPORTS 3"
+    ],
     english: [
-      "SKY 2", "TRUE MOVIES 1 UK", "BBC ONE", "BBC TWO", "BBC4", "CP24 HD", "CP24 SD", "BNN",
-      "CHCH TV", "CBC NEWS NETWORK", "CBC TORONTO", "GLOBAL TV", "CITY TV", "CTV TV",
-      "THE WEATHER CHANNEL -CA", "OMNI 1", "OMNI 2", "OWN - CA", "HBO-EAST CA", "SLICE -CA",
-      "ABC-HD-WKBW", "CBS-HD", "FOX-HD", "NBC HD", "BLOOMBERG TV ASIA", "CNBC HD",
-      "CNBC WORLD", "CNBC AFRICA", "BLOOMBERG TV US", "RT INTERNATIONAL", "BBC WORLD NEWS",
-      "124 NEWS", "ALJAZEERA ENG", "FOX NEWS", "MSNBC", "HBO-EAST US", "HBO-2 US", 
-      "HBO-FAMILY", "STARZ KID & FAMILY", "USA-HD", "SHOWTIME WEST", "STARZ EAST",
-      "STARZ CINEMA", "HBO COMEDY", "HBO ZONE", "CINEMA 5 STAR", "CINEMA ACTION",
-      "SHOWTIME EAST", "SKY MOVIES THRILLER", "SKY MOVIES SHOWCASE", "SKY MOVIES DRAMA UK",
-      "SKY MOVIES FAMILY UK", "SKY UK MOVIES SCIFI & HORROR", "MOVIES 4 MEN", "BBC THREE",
-      "BBC NEWS", "ALIBI CHANNEL", "GOLD TV", "CBS ACTION UK", "DISCOVERY ID UK",
-      "DISCOVERY SCIENCE-UK", "DISCOVERY HISTORY UK", "ITV 1", "ITV 2", "IVT 3", "ITV 4",
-      "E4", "5USA", "WATCH", "GOOD FOOD", "WEATHER NATION -US", "ABC NEWS", 
-      "HBO SIGNATURE EAST", "CBS DRAMA UK", "BRAVO-CA", "AMC-CA", "FY-CA", "A&E-CA",
-      "TLC-CA", "SHOWCASE-CA", "W NETWORK EAST", "M3 (MUCHMOREMUSIC)-CA", "HISTORY TV-CA",
-      "DISCOVERY CHANNEL", "DISCOVERY ID CA", "LOVE NATURE", "ANIMAL PLANET HD-CA",
-      "NAT GEO", "DOCUMENTARY", "MILITARY", "SHOWTIME", "FYI TV", "GSN TV", "WILD TV",
-      "CNN HD", "3E", "FOOD HD-CA", "COOKING CHANNEL", "BRAVO USA", "TBS", "DESTINATION US",
-      "WE TV", "TNT", "VELOCITY", "HIFI", "HGTV", "DIY NETWORK", "SYFY", "SPACE",
-      "HISTORY", "HISTORY 2 HD", "DISCOVERY ID CA", "DISCOVERY HISTORY", "NATGEO WILD",
-      "CINEMAX", "MTV DANCE UK", "BLOOMBERGE UK", "MTV ROCK UK", "DAVE CHANNEL -UK",
-      "SYFY UK", "CHANNEL 4", "CHANNEL 5 -UK", "DMAX CHANNEL-UK", "TRUE MOVIES UK",
-      "TRUE MOVIES 2 UK", "SKY ACTION", "SKY MOVIES PREMIER", "SKY ATLANTIC", "SKY DISNEY",
-      "SKY MODERN GREATS", "MOVIES", "SKY MOVIES COMEDY", "SKY UK 1", "5 STAR",
-      "COMEDY CENTRAL", "NAT GEO UK", "ANIMAL PLANET-UK", "DISCOVERY SCIENCE-CA",
-      "DISCOVERY TURBO", "SKY NEWS", "FOX UK TV", "VEVO 1 HD", "VEVO 2 HD", "VEVO 3 HD",
-      "VH1 USA", "BET", "MTV MUSIC UK", "MTV HITS"
+      "BBC ONE", "BBC TWO", "ITV 1", "CHANNEL 4", "CHANNEL 5", "SKY ONE", "SKY ATLANTIC", "SKY WITNESS",
+      "SKY COMEDY", "SKY CRIME", "SKY DOCUMENTARIES", "SKY HISTORY", "SKY NATURE", "SKY ARTS",
+      "DISCOVERY CHANNEL", "NATIONAL GEOGRAPHIC", "HISTORY CHANNEL", "ANIMAL PLANET", "INVESTIGATION DISCOVERY",
+      "CRIME & INVESTIGATION", "ALIBI", "DAVE", "GOLD", "YESTERDAY", "DRAMA", "E4", "MORE4", "ITV2", "ITV3",
+      "ITV4", "5USA", "5STAR", "BBC NEWS", "SKY NEWS", "CNN", "FOX NEWS", "MSNBC", "BBC WORLD NEWS",
+      "AL JAZEERA ENGLISH", "EURONEWS"
     ],
     hindi: [
-      "AND TV HD US", "AND TV HD IND", "AND PICTURES -US", "AND PICTURE IND", "SONY TV HD",
-      "SONY TV US", "SONY TV UK", "SONY TV AUD", "STAR PLUS HD", "STAR PLUS US",
-      "STAR PLUS AUD", "ZEE-TV HD- IND", "ZEE-TV HD -CAN", "ZEE TV APAC", "ZEE TV UK",
-      "AAPKA COLORS HD", "COLORS HD -IND", "COLORS-UK", "COLORS -US", "LIFE OK-US",
-      "LIFE OK AUD", "ZEE CINEMA HD-IND", "ZEE CINEMA US", "ZEE CINEMA UK", "ZEE CINEMA APC",
-      "ZEE CINEMA HD -US", "SONY MAX", "SET MAX UK", "SET MAX AUD", "SET MAX UK", "SAB US",
-      "SAB UK", "SAB AUD", "RISTHEY", "RISHTEY UK", "B4U MUSIC", "TV ASIA HD", "AAJTAK US",
-      "ZEE ZING", "ZING TV UK", "SAHARA ONE", "AASTHA", "ZEE SMILE", "ZEE BUSINESS IND",
-      "MUSIC EXPRESS", "FILMY", "CARE WORLD", "SAMAY AALAMI IND", "SANSKAR TV IND", "ET NOW",
-      "TEZ NES IND", "ABP NEWS IND", "STAR PLUS USA", "MUSIC XPRESS", "ZEE NEWS IND",
-      "ZEE PURVAIYA", "ZEE SANGAM", "ZEE MARUDHARA", "ZEE MPCG", "ZEE CLASSIC",
-      "ZEE KHANA KHAZANA", "ZEE ETC BOLLYWOOD", "STAR GOLD", "NDTV 24*7", "PICTURES HD",
-      "B4U MOVIES", "UTV MOVIES", "DHAMMAL", "B4U PLUS", "ZOOM TV", "ZOOM UK", "10 MOVIES",
-      "9XM TV IND", "BIG MAGIC", "BOLLYWOOD NEWS", "BINDASS PLAY", "9X JALWA IND",
-      "APKA CHANNEL", "HEADLINE TODAY", "FOOD FOOD", "MTV INDIA", "SONY MIX", "TIMES NOW",
-      "MANORANJAN TV", "MUSIC INDIA IND", "MTUNES HD", "SAHHARA SAMAY", "UTV BINDASS",
-      "TV COLORS"
-    ],
-    telugu: [
-      "BHATHI TV", "GEMINI TV", "GEMINI MOVIES", "GEMINI COMEDY", "ZEE TELUGU",
-      "ETV TELEGU", "MAA MUSIC", "MAA GOLD", "NTV", "MAA MOVIES US", "MAA TV", "MANA TV",
-      "MAHAA TV", "POOJA TV", "OM CVR", "TV9 NEWS", "V6 NEWS TV", "TOLLYWOOD TV",
-      "TV1 NEWS", "I NEWS", "VANITHA TV", "T NEWS", "STUDIO N TV", "RAJ VISSA",
-      "RAKSHANA TV", "SAKHI TV", "CALVARY TV", "CVR NEWS", "CVR ENGLSH NEWS",
-      "ABN ANDHRA JYOT", "10 TV", "ARADANA TV", "6TV", "ETV ANDHRA PRADESH",
-      "RAJ NEWS TELUGU"
+      "STAR PLUS", "ZEE TV", "COLORS", "SONY TV", "SAB TV", "AND TV", "&TV HD", "STAR BHARAT",
+      "ZEE ANMOL", "SONY PAL", "STAR UTSAV", "ZEE CINEMA", "SONY MAX", "STAR GOLD", "AND PICTURES",
+      "B4U MOVIES", "UTV MOVIES", "MOVIES OK", "CINEMA TV", "ZEE ACTION", "ZEE CLASSIC", "ZEE BOLLYWOOD",
+      "AAJ TAK", "INDIA TV", "NEWS 18 INDIA", "ZEE NEWS", "ABP NEWS", "NDTV INDIA", "INDIA TODAY",
+      "DD NATIONAL", "DD NEWS", "MTV INDIA", "9XM", "ZOOM", "ZING", "B4U MUSIC", "MASTIII"
     ],
     tamil: [
-      "TET HD", "TAMIL VISION", "TAMIL ONE", "STAR VIJAY -US", "SUN TV -US", "KTV-US",
-      "SUN MUSIC -US", "ADITHYA TV-US", "SIRIPOLI TV", "KALAIGNAR TV", "JAYA MOVIE",
-      "JAYA TV", "JAYA MAX", "JAYA PLUS", "RAJ TV", "RAJ NEWS", "RAJ MUSIC",
-      "RAJ DIGITAL PLUS", "K4U", "LANKASRI TV", "VIMBAM TV", "EET", "CHITHIRAM TV",
-      "MURASU", "ISAI ARUVI -IND", "MAKKAL TV", "NEWS7TAMIL", "THANTHI TV",
-      "VANNATHIRAI VTV", "SRI SANKARA TAMIL", "PUTHIYA THALAIMURAI", "CAPTAIN TV",
-      "CAPTAIN NEWS", "VASANNTHAM TV", "STAR VIJAY-UK"
+      "SUN TV", "VIJAY TV", "ZEE TAMIL", "COLORS TAMIL", "KALAIGNAR TV", "RAJ TV", "JAYA TV", "POLIMER TV",
+      "CAPTAIN TV", "VASANTH TV", "MAKKAL TV", "PEPPERS TV", "PUTHIYA THALAIMURAI", "NEWS 7 TAMIL",
+      "THANTHI TV", "NEWS18 TAMIL NADU", "SUN MUSIC", "ISAI ARUVI", "JAYA MAX", "K TV", "RAJ DIGITAL PLUS",
+      "ADITHYA TV", "SUN LIFE", "ANGEL TV TAMIL", "DISCOVERY TAMIL"
     ],
-    punjabi: [
-      "SIKH CHANNEL-UK", "JUS ONE PUNJABI", "AONE PUNJABI", "PTC JUNJABI NEWS",
-      "JUS PUNJABI", "Mh1", "HAMDARD TV", "PTC CHAK DE", "JHANJAR TV", "GOLD ONE TV",
-      "DIP CHANNEL", "ZEE PUNJABI UK", "SIKH CHANNEL", "PTC PUNJABI US", "SEA TV",
-      "ALPHA ETC PUNJABI", "24*7 GURBANI", "CHAKDE TV", "BRIT ASIA", "APNA CHANNEL",
-      "ANKHILA PUNJAB TV", "9X TASHAN", "NAGARA TV", "5AAB", "SARDARI", "SANGAT TV",
-      "ANKHILA PUNJABI"
+    telugu: [
+      "GEMINI TV", "ETV TELUGU", "ZEE TELUGU", "STAR MAA", "TV9 TELUGU", "NTV", "TV5 NEWS", "ABN ANDHRA JYOTHY",
+      "SAKSHI TV", "V6 NEWS", "T NEWS", "RAJ NEWS TELUGU", "ETV ANDHRA PRADESH", "DD SAPTAGIRI",
+      "GEMINI MOVIES", "GEMINI COMEDY", "ZEE CINEMALU", "STAR MAA MOVIES", "ETV CINEMA", "GEMINI MUSIC",
+      "MAA MUSIC", "VISSA TV", "BHAKTI TV", "HINDU DHARMAM"
     ],
-    spanish: [
-      "TV CHILLE", "CDN 37", "C5N", "AMERICAN PERU", "CALLE 13", "CUATRO", "CDN SPORT",
-      "TV AZTECA", "EWTN", "TRU TV HD SP", "CNN EN ESPANOL", "HMX TV SP", "AE SP",
-      "LIFE TIME SP", "BOOMERANG SP", "UNO MAS UNO SP", "DE PELACULA", "CBEEBIES SP",
-      "CANAL LIGA", "CANAL FUTBOL", "TELEHIT SP", "ESTELLAS SP", "FORO TV SP", "ESPN SP",
-      "ESPN 3 SP", "TELEFORMULA", "DISCOVERY KID SP", "DISNEY JRE SP", "DISRITO COMEDIA",
-      "TNT SERIES", "FOX SPORT 2 HD", "GALA TV", "GLITZ SP", "GUAREVISION", "GALAVISION",
-      "GOLDEN TV", "GOLDEN EDGE", "EL GOURMET", "MTV LIVE HD", "NICK JR", "NICK TOONS",
-      "NICK SP", "DISNEY CHANNEL", "NAT GEO WILD", "CNTRO AMERICA", "TLE REBELDE",
-      "TLNOVELAS", "MILENIO TV", "SYFY SP", "VH1 SP", "HD THEATRE", "HOME AND HEALTH",
-      "UNICABLE", "STUDIO UNIVERSAL", "SAT SP", "TVE", "TV COLUMBIA", "DISNEY JUNIOR",
-      "TOONCAST", "TNTSP", "UNIVISION", "UNIMAS", "CARACOL"
+    urdu: [
+      "GEO NEWS", "GEO TV", "ARY NEWS", "ARY DIGITAL", "ARY DIGITAL WORLD", "ARY ZAUQ", "ARY MUSIC", "ARY QTV",
+      "HUM TV", "HUM EUROPE", "HUM WORLD", "HUM TV WORLD 2", "HUM SITARAY", "MASALA TV", "DUNYA TV",
+      "CAPITAL TV", "MADNI TV UK", "ARUJ", "NOOR TV", "NEWS ONE", "PEACE TV URDU", "PRIME TV",
+      "PEACE TV URDU ENG", "PASHTO 1", "MTA1 A", "KASHISH TV", "KAYZ TV", "KTN", "KHYBER NEWS",
+      "KOHENOOR TV", "KHYBER TV", "92 NEWS", "TIMES", "URDU 1", "SUCH TV", "STARLITE", "STAR MAX",
+      "SILVER SCREEN", "SINOH TV", "BUSINESS PLUS", "AWAY", "CHANNEL 5", "D TV", "CHANNEL 24",
+      "AHLULBAYT TV", "AL QURAN KAREEM LIVE", "DAWN NEWS", "EXPRESS NEWS", "EXPRESS ENTERTAINMENT",
+      "ENJOY NOW HD", "DEMOD TV", "MADNI TV", "ISAAC TV", "INDU$ VISION", "HIDAYAT TV", "HADI TV",
+      "JAAG TV", "TAKBEER TV", "TV ONE", "ZAIQA TV", "WIN TV", "VIBE TV", "ROZE NEWS", "RAAH TV",
+      "RAAVI TV", "SAMAA", "SAHAR TV", "AAJ NEWS", "FILMAX", "FILM WORLD", "FILM ASIA", "FILMAZIA", "FALAK TV"
     ],
-    sports: [
-      "ESPN", "ESPN 2", "FOX SPORTS 1", "FOX SPORTS 2", "NBA TV", "NFL NETWORK",
-      "SKY SPORTS", "EUROSPORT", "BEIN SPORTS", "TSN", "SPORTSNET"
+    arabic: [
+      "MTV LEBANON", "AL JAZEERA", "AL JAZEERA DOC", "SAUDI QURAN", "SAUDI NEWS", "SAUDI 2", "NORSAT 2", "NORSAT TV",
+      "NOURSAT", "AL HAYAT 2", "CTV COPTIC", "AL MANAH", "PANORAMA FILM", "PANORAMA DRAMA", "NRT TV", "MEDI 1 TV",
+      "TIME FILM", "TIME COMEDY", "NILE DRAMA 2", "NILE SPORT", "MBC DRAMA", "NBN", "TIME CINEMA", "MEHWAR",
+      "KUWAIT TV", "SUDAIT TV", "AL NAHAR DRAMA", "AL OUTA INTER", "FUTURE TV", "MAGHRIBIA", "SKY NEWS ARABIC",
+      "NAT GEO ABU DHABI", "RT NEWS", "IORA ATV", "MBC MAX", "MBC SPORT 1", "MBC SPORT 2", "ABU DHABI DRAMA",
+      "AL HAYAT 1", "FRANCE 2 ARABIC", "NILE DRAMA", "NILE FAMILY", "NILE CINEMA", "NILE COMEDY", "FRANCE 3 ARABIC",
+      "FRANCE 4 ARABIC", "AL TUNISIA", "AL JAZEERA MOUBASHER", "AL RESALLA TV", "AL RAI", "AL RAHMA", "AL OULA",
+      "AL NAHAR SPORT", "AL NAHAR AL YOUM", "AL NAHAR AL HAYUM", "AL NAHAR", "AL MAYADEEN", "AL MAJID", "AL JADEED",
+      "AL HDATH", "AL HAYAT MUSALMAN", "AL ARAQUIA", "MBC MASR 2", "MBC ACTION", "MBC BOLLYWOOD", "LDC LEBANON",
+      "AL ARABIA", "AIJAL", "AFRIADIA TV", "ART AFLAXI 1", "ART AFLAXI 2", "ART NEXAYAT 2", "AD SPORT 1", "2M MONDE",
+      "BBC NEWS ARABIC", "CINEMA PRO", "CBC NEWS", "CBC DRAMA", "DUBAI SPORT 4", "DUBAI NOUR", "LBC LEBANON",
+      "LBC EUROPE", "CAIRO CINEMA", "CBC 1", "MBC 1", "MBC 2", "MBC 3", "MBC 4", "CBC SOFRA", "CBC EXTRA",
+      "CAIRO DRAMA", "OTV", "NILE CULTURE", "SUBIA DRAMA", "ROTANA MUZIK", "ROTANA KHALUJA", "ROTANA CLIP",
+      "ROTANA CLASSIC", "ROTANA CINEMA", "STAR CINEMA 1", "STAR CINEMA 2", "FRANCE 24 ARABIC", "SAUDI SUNNAH",
+      "DUBAI ONE", "FATA FEAT TV", "FOX ARABIC", "FOX MOVIE ARABIC", "LBC"
+    ],
+    marathi: [
+      "COLPORS MARATHI", "TV9 MAHARASHTRA", "STAR PRAVAH", "ZEE TALKIES", "SAAM TV", "9X JHAKASAS", "ABP MANJHA", "24 TASS TV"
+    ],
+    bangla: [
+      "SONY AATH", "ETV BANGLA", "MASRANGA", "PEACE TV BANGLA", "STAR JALSHA", "EXUSHEY TV", "MOVIE BANGLA", "TIME TV",
+      "TARA MUZIK", "ZEE BANGLA US", "SOMOY NEWS TV", "R PLUS", "PLANET M CINEMA", "SANGSAD BANGLADESH", "SANGEET BANGLADESH",
+      "JAMUNA TV", "INDEPENDENT TV", "MILLENNIUM TV", "MY TV", "DESH TV", "DHOOM MUZIK", "GHANTA", "GAAN BANGLA", "ERATOR TV",
+      "NEWS TIME", "RUPASHI BANGLA", "SA TV", "BTV WORLD", "BANGLA VISION", "ASIAN TV", "BOISHAKHI TV", "ASIAN TV",
+      "SR BANGLA TV", "ABP ANANDA", "NTV", "AAKASH BANGLA", "COLORS BANGLA", "CHANNEL I", "CHANNEL S", "ATN NEWS",
+      "ATN BANGLA", "CHANNEL 9", "CHANNEL 24"
+    ],
+    kids: [
+      "FAMILY HD", "ABC SPARK", "TREEHOUSE SD", "TREEHOUSE HD", "CARTOON NETWORK", "NICKELODEON", 
+      "DISNEY XD HD", "NICKELODEON TEEN", "YTV EAST HD", "NICK JR UK", "DISNEY JUNIOR-CA", 
+      "DISNEY CHANNEL-CA", "DISNEY JUNIOR-UK", "DISNEY CHANNEL", "CARTOON NETWORK", "NICKTOON UK", "FAMILY JR-CA"
+    ],
+    kannada: [
+      "COLORS KANNADA", "ZEE KANNADA", "STAR SUVARNA", "UDAYA TV", "PUBLIC TV",
+      "TV9 KANNADA", "KASTURI TV", "RAJA NEWS", "SUVARNA NEWS 24X7", "NEWS18 KANNADA",
+      "UDAYA MOVIES", "UDAYA MUSIC", "UDAYA COMEDY", "STAR SUVARNA PLUS",
+      "COLORS SUPER", "DD CHANDANA", "DIGHVIJAY NEWS", "PRAJA TV"
+    ],
+    exyogoslavia: [
+      "PINK PLUS", "PINK", "PINK 2", "PINK 3", "PINK ACTION", "PINK FOLK", "PINK PREMIUM", "PINK HORROR",
+      "PINK MONTENEGRO", "PINK WESTERN", "KLASIC TV", "N1", "HAYAT FOLK", "HAYAT PLUS", "DOMA TV",
+      "LOV I RIBOLOV", "24 KITCHEN", "HISTORY CHANNEL", "ANIMAL PLANET", "DISCOVERY ID", "FOR MOVIES",
+      "FOR EX", "FOX CRIME", "FOX LIFE EX", "HBO ADRIA & HBO COMEDY", "CINESTAR PREMIUM", "CINESTAR ACTION",
+      "CINEMAX", "HAYAT HD", "HAPPY", "SONCE", "NOVEZAMKY", "B92", "ATV", "ATV1"
+    ],
+    italian: [
+      "RAI INTERNATIONAL", "RAI ITALIA", "RAI 1", "RAI 2", "RAI 3", "SKY TG24", "EURONEWS", "RAI NEWS 24", "ETV",
+      "SKY SPORT 1", "RAI PREMIUM", "FANO TV", "CIELO", "MEDIASET DUE", "MEDIASET EXTRA", "AXN", "SKY CINEMA 1"
+    ],
+    ncaab: [
+      "NCAAB 01", "NCAAB 02", "NCAAB 03", "NCAAB 04", "NCAAB 05", "NCAAB 06", "NCAAB 07", "NCAAB 08"
+    ],
+    chinese: [
+      "THE PHOENIX", "PHOENIX HONG KONG", "PHOENIX SICHUAN", "SUN TV", "YANGTZE RIVER THEATRE", 
+      "ARTE INTERNATIONAL", "THREE INTERNATIONAL", "TRT INTERNATIONAL", "FIRST FINANCIAL"
+    ],
+    sinhalse: [
+      "HIRU TV", "LORD BUDDHA TV", "ITN DERANA TV", "THE BUDDHIST", "SRI LANKA RUPAVAHINI", "SHAKTHI TV",
+      "TV DERANA", "NETHRA TV", "VASANTHAM TV", "CHANNEL EYE"
+    ],
+    russian: [
+      "RUSSIA 1", "RUSSIA 2", "RUSSIA 24", "SPORT 1 RUS", "CHANNEL ONE RUSSIA", "ANIMAL PLANET RUS", 
+      "CARTOON NETWORK RUS", "MUSIC BOX RUS", "MUSIC BOX RUSSIA", "ILLUSION RUS", "COMEDY RUS", 
+      "EUROSPORT RUSSIA", "EUROSPORT 2 RUS", "EUROPA PLUS TV", "NAT GEO RUSSIA", "NAT GEO WILD RUS", 
+      "DISCOVERY CHANNEL RUS", "TV 1000 RUSSIA", "NTV HD RUS", "NTV PLUS RUS", "NASHE KINO", 
+      "NASHE NOVOE KINO", "2X2 RUS", "A-ONE RUS", "VIASAT HISTORY RUS", "VIASAT NATURE RUS"
+    ],
+    polish: [
+      "FILMBOX FAMILY POL", "CANAL+ FAMILY POL", "MINIMINI+ POL", "ORANGE SPORT POL", "NSPORT POL", "EUROSPORT POL", 
+      "COMEDY CENTRAL POL", "TV4 POL", "TVN 7 POL", "VIVA POL", "SKAHBO POL", "HBO 2 POL", "HBO COMEDY POL", 
+      "ANIMAL PLANET POL", "POLSAT PLAY POL", "POLSAT FILM POL", "NAT GEO WILD POL", "POLSAT SPORT NEWS", 
+      "POLSAT NEWS", "POLSAT SPORT", "POLSAT SPORT EXTRA", "NAT GEO POL", "ESKA TV", "CANAL+ POL", 
+      "CANAL+ SERIALE POL", "CANAL+ FILM POL", "POLSAT JIMJAM POL", "DISCOVERY SCIENCE POL", "BBC EARTH POL", 
+      "DISNEY JUNIOR POL", "TV POLONIA", "ITVN POL", "TVN", "TVN 7", "TVP 1", "TVP 2", "TVP SPORT", "TVN 24", 
+      "TVN TURBO", "TVN STYLE", "TVP HISTORIA", "POLSAT", "POLSAT 2", "TVP SERIALE", "ALE KINO", "KINO TV", 
+      "KINO POLSKA", "TRWM TV", "TVP INFO", "DOMO+", "KUCHNIA+"
+    ],
+    persian: [
+      "KLISAT TV", "MAIWAND TV", "PAYAM E AFGHAN", "PAYAM JAVAN TV", "PASHTO TV", "PRESS TV", 
+      "GANJE HOZOUR TV", "MOHABBAT TV", "MELLI TV", "RTA", "SALAM TV", "JAMM E JAMM", 
+      "KASIM TV", "SIMAY AZADI", "TAPESH TV", "TIME TV", "BBC PERSIAN", "ZARIN TV", 
+      "RANGARANG TV", "FARSI 1", "VOA FARSI", "ZHWANDOON TV", "ARIANA INTERNATIONAL", 
+      "ARIANA TV", "ARIANA TV NETWORK", "ATN NEWS", "CARACOL", "LEMAR TV", "TOLO NEWS", 
+      "TOLO TV", "AAA MUSIC", "AAA FAMILY", "BBC", "CHANNEL ONE", "CLICK SAT", "ICC TV", 
+      "FACES 2", "GEM USA", "MERCI TV", "NEX 1TV", "PMC TV", "TVP", "VOA TV"
+    ],
+    malayalam: [
+      "ASIANET", "SURYA TV", "MAZHAVIL MANORAMA", "KAIRALI TV", "AMRITA TV", "KIRAN TV",
+      "ASIANET NEWS", "MEDIA ONE", "MANORAMA NEWS", "NEWS 18 KERALA", "MATHRUBHUMI NEWS",
+      "KAPPA TV", "ASIANET MOVIES", "SURYA MOVIES", "KAIRALI WE", "FLOWERS TV"
+    ],
+    portuguese: [
+      "BAND NEWS", "BAND INTERNATIONAL", "GLOBO USA 1", "GLOBO USA", "GLOBO BRASIL", "GLOBO PREMIUM", 
+      "RECORD USA", "RECORD BRASIL", "SPORTV AMÉRICA", "REAL MADRID TV", "BENFICA TV 1 SD", 
+      "SPORTV 1 SD", "SPORTV 2 SD", "SPORTV 3 SD", "RTP INTERNACIONAL", "RTP MADEIRA", "RTP AÇORES", 
+      "RTP 1", "RTP 2", "SIC", "SIC NOTÍCIAS", "SIC MULHER", "SIC RADICAL", "TVI", "TVI24", 
+      "CMTV", "A BOLA TV", "SPORTV 1 HD", "SPORTV 2 HD", "SPORTV 3", "SPORTV 4", "SPORTV 5", 
+      "BENFICA TV 1 HD", "BENFICA TV 2 HD", "SPORTING TV HD", "PORTO CANAL", "PFC", "MOTOS TV", 
+      "MOTO VISION TV", "AXN PORTUGAL", "AXN WHITE", "AXN BLACK", "FOX PORTUGAL", "TYCINE 1", 
+      "TYCINE 2", "TYCINE 3", "TYCINE 4", "CAÇA E PESCA", "TOROS TV", "DISCOVERY CHANNEL", 
+      "ODISSEIA", "CANAL HISTÓRIA", "DISNEY CHANNEL PT", "RTP ÁFRICA", "ETV", "HOLLYWOOD", 
+      "RTP MEMÓRIA", "RTP INFORMACÃO", "NAT GEO PORTUGAL", "MOV", "TV SÉRIES", "SIC CARAS", 
+      "CANAL PANDA", "CINE MUNDO"
+    ],
+    ncaaf: [
+      "NCAAF 01", "NCAAF 02", "NCAAF 03", "NCAAF 04", "NCAAF 05", "NCAAF 06", "NCAAF 07", "NCAAF 08"
+    ],
+    khamer: [
+      "CTN KHMER", "CNC KHMER", "MYTV KHMER", "HANG MEAS KHMER", "BAYON TV", "APSARA TV"
+    ],
+    ukrain: [
+      "UKRAINE 1", "UKRAINE 2", "UKRAINE 3", "UKRAINE 4", "UKRAINE 5", "UKRAINE 6"
+    ],
+    israel: [
+      "IBA 1", "IBA 2", "KAN 11", "KESET 12", "RESHET 13", "IL 24 NEWS", "MAKO TV", "HERE 11", "KAN 33", "KAN 88"
+    ],
+    oriya: [
+      "OTV", "ZEE SARTHAK", "COLORS ODIA", "KANAK NEWS", "NEWS7", "NAXATRA NEWS",
+      "PRAMEYA NEWS7", "DD ODIA", "KALINGA TV", "MBC TV", "NANDIGHOSHA TV",
+      "TARANG MUSIC", "TARANG TV", "ALANKAR TV", "ODISHA TV"
+    ],
+    jamaica: [
+      "TVJ", "CVM TV", "LOVE TV", "HYPE TV", "FLOW 1", "READY TV", "RE TV",
+      "JAMAICAN NEWS NETWORK", "FAME TV", "MELLO TV", "JUICE TV", "WEST INDIES SPORTS",
+      "CARIBBEAN GOSPEL", "ISLAND VIBES", "REGGAE ENTERTAINMENT TV"
+    ],
+    filipino: [
+      "GMA LIFE TV", "GMA PINOY TV", "GMA NEWS TV", "GMA MOVIE CENTRAL", "GMA REGIONAL TV", "GMA AFFORDABOX"
+    ],
+    gujrati: [
+      "COLORS GUJARATI", "DD GIRNAR", "GTPL", "GS TV", "SANDESH NEWS", "TV9 GUJARATI",
+      "VTV GUJARATI", "ZEE 24 KALAK", "ABP ASMITA", "CNBC GUJARATI", "GSTV NEWS",
+      "MANTAVYA NEWS", "GUJARAT SAMACHAR TV", "ZEE GUJARATI", "KARTAVYA TV"
+    ],
+    afghan: [
+      "TOLO TV", "TOLO NEWS", "LEMAR TV", "ATN NEWS", "ARIANA TV", "SHAMSHAD TV",
+      "1TV", "KHURSHID TV", "RTA", "NOOR TV", "ZHWANDOON TV", "HEWAD TV",
+      "AYNA TV", "AFGHAN TV", "KABUL NEWS", "ATN NATIONAL", "KAYHAN TV"
+    ],
+    adult: [
+      "BUNGA BUNGA TV", "XTSY", "SCT HD", "ADULT BABES", "JUICY", "REAL", "HUSTLER TV",
+      "RED LIGHT HD", "RED LIGHT 2", "BABESTATION XTRA"
     ]
   };
 
+  const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
+  const [showAllMap, setShowAllMap] = useState<{ [key: number]: boolean }>({});
+
+  const handleTileClick = (idx: number) => {
+    setExpandedIdx(expandedIdx === idx ? null : idx);
+  };
+
+  const handleShowAllToggle = (idx: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowAllMap((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  };
+
   return (
-    <div id="channels" className="py-16 bg-black/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            7000+ Multi Cultural Live Channels
-          </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Experience the world's most comprehensive IPTV channel lineup with premium content from every corner of the globe
-          </p>
-        </div>
-        
-        <div className="space-y-12">
-          {Object.entries(channels).map(([category, channelList]) => (
-            <ChannelSection 
-              key={category}
-              title={`${category.toUpperCase().replace('_', ' ')} CHANNELS`} 
-              channels={channelList} 
-            />
-          ))}
-        </div>
-        
-        <div className="text-center mt-16">
-          <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/30">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Can't Find Your Favorite Channel?
-            </h3>
-            <p className="text-gray-300 mb-6">
-              We're constantly adding new channels to our lineup. Contact us to request specific channels or get more information about our offerings.
-            </p>
-            <button className="bg-gradient-to-r from-[#E50914] to-[#f40612] hover:from-[#f40612] hover:to-[#E50914] text-white px-8 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 shadow-lg">
-              Contact Support
-            </button>
-          </div>
-        </div>
+    <div className="container mx-auto px-2 py-8 pt-24">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold mb-2">Our Channel Lineup</h1>
+        <p className="text-gray-400 text-lg">Browse through our extensive collection of channels from around the world</p>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {CATEGORY_KEYS.map((category, idx) => (
+          <ChannelTile
+            key={category}
+            title={category}
+            channels={channels[channelMap[category]] || []}
+            expanded={expandedIdx === idx}
+            onClick={() => handleTileClick(idx)}
+            showAll={!!showAllMap[idx]}
+            onShowAllToggle={(e) => handleShowAllToggle(idx, e)}
+          />
+        ))}
       </div>
     </div>
   );
