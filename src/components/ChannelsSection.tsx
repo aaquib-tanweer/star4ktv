@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import { ChevronDownIcon, ChevronUpIcon, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const initialChannelsToShow = 10;
 
 const CATEGORY_KEYS = [
+  'English Channels',
   'Cricket Channels',
   'NCAAB Channels',
   'NCAAF Channels',
-  'English Channels',
   'Hindi Channels',
   'Tamil Channels',
   'Telugu Channels',
@@ -52,61 +52,87 @@ type ChannelsData = { [key: string]: string[] };
 const ChannelTile = ({
   title,
   channels,
-  expanded,
-  onClick,
-  showAll,
-  onShowAllToggle
+  onClick
 }: {
   title: string;
   channels: string[];
-  expanded: boolean;
   onClick: () => void;
-  showAll: boolean;
-  onShowAllToggle: (e: React.MouseEvent) => void;
 }) => {
-  const displayedChannels = showAll ? channels : channels.slice(0, initialChannelsToShow);
   return (
-    <div className="border border-gray-700/50 rounded-xl overflow-hidden bg-black/80">
-      <button
-        onClick={onClick}
-        className="w-full px-6 py-4 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-[#E50914] transition-colors"
-      >
-        <span className="text-lg font-semibold text-white text-left">{title}</span>
-        {expanded ? (
-          <ChevronUpIcon className="text-[#E50914] w-6 h-6" />
-        ) : (
+    <div className="w-full sm:w-[calc(50%-10px)] md:w-[calc(33.333%-14px)] lg:w-[calc(25%-15px)] mb-5">
+      <div className="border border-gray-700/50 rounded-xl overflow-hidden bg-black/80 h-full hover:border-[#E50914]/50 transition-all duration-300 cursor-pointer">
+        <button
+          onClick={onClick}
+          className="w-full px-6 py-4 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-[#E50914] transition-colors hover:bg-gray-800/30"
+        >
+          <span className="text-lg font-semibold text-white text-left">{title}</span>
           <ChevronDownIcon className="text-[#E50914] w-6 h-6" />
-        )}
-      </button>
-      <AnimatePresence>
-        {expanded && (
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const ChannelModal = ({
+  isOpen,
+  onClose,
+  title,
+  channels
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  channels: string[];
+}) => {
+  const [showAll, setShowAll] = useState(false);
+  const displayedChannels = showAll ? channels : channels.slice(0, initialChannelsToShow);
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+          onClick={onClose}
+        >
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="overflow-hidden"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            className="bg-gray-900 rounded-xl max-w-4xl w-full max-h-[80vh] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-4 bg-gray-900/70">
+            <div className="flex items-center justify-between p-6 border-b border-gray-700">
+              <h2 className="text-2xl font-bold text-white">{title}</h2>
+              <button
+                onClick={onClose}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <X size={24} />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto max-h-[calc(80vh-120px)]">
               {channels.length === 0 ? (
-                <div className="text-center text-gray-400 py-8 text-sm">No channels available in this category.</div>
+                <div className="text-center text-gray-400 py-8 text-lg">No channels available in this category.</div>
               ) : (
                 <>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
                     {displayedChannels.map((channel, idx) => (
                       <div
                         key={idx}
-                        className="bg-gray-900/60 hover:bg-gray-800/80 text-white p-2 rounded text-center text-xs font-medium transition-all duration-200 border border-gray-700/20 hover:border-[#E50914]/40"
+                        className="bg-gray-800 hover:bg-gray-700 text-white p-3 rounded-lg text-center text-sm font-medium transition-all duration-200 border border-gray-600 hover:border-[#E50914]/40 cursor-pointer"
                       >
                         {channel}
                       </div>
                     ))}
                   </div>
                   {channels.length > initialChannelsToShow && (
-                    <div className="mt-3 text-center">
+                    <div className="mt-6 text-center">
                       <button
-                        onClick={onShowAllToggle}
-                        className="text-[#E50914] hover:text-white bg-gray-800/50 hover:bg-[#E50914] px-3 py-1 rounded-lg transition-all duration-300 text-xs font-medium"
+                        onClick={() => setShowAll(!showAll)}
+                        className="text-[#E50914] hover:text-white bg-gray-800 hover:bg-[#E50914] px-6 py-2 rounded-lg transition-all duration-300 font-medium"
                       >
                         {showAll ? 'Show Less' : `Show More (${channels.length - initialChannelsToShow} more)`}
                       </button>
@@ -116,9 +142,9 @@ const ChannelTile = ({
               )}
             </div>
           </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
@@ -356,19 +382,66 @@ export function ChannelsSection() {
     adult: [
       "BUNGA BUNGA TV", "XTSY", "SCT HD", "ADULT BABES", "JUICY", "REAL", "HUSTLER TV",
       "RED LIGHT HD", "RED LIGHT 2", "BABESTATION XTRA"
+    ],
+    punjabi: [
+      "PTC PUNJABI", "PTC NEWS", "PTC CHAKDE", "PTC SIMRAN", "PTC GOLD", "PTC MUSIC", "PTC DHAMAKA",
+      "DD PUNJABI", "ZEE PUNJABI", "COLORS PUNJABI", "PUNJAB TODAY", "PUNJAB NEWS EXPRESS",
+      "PUNJAB KESARI", "PUNJAB NEWS", "PUNJAB TV", "PUNJABI NEWS", "PUNJABI CINEMA", "PUNJABI MUSIC",
+      "PUNJABI DRAMA", "PUNJABI CULTURE", "PUNJABI HERITAGE", "PUNJABI FOLK", "PUNJABI CLASSIC",
+      "PUNJABI MODERN", "PUNJABI TRADITIONAL", "PUNJABI FESTIVAL", "PUNJABI SPECIAL", "PUNJABI HITS"
+    ],
+    islamic: [
+      "PEACE TV", "PEACE TV URDU", "PEACE TV BANGLA", "AL JAZEERA", "AL JAZEERA ENGLISH", "AL JAZEERA DOC",
+      "SAUDI QURAN", "SAUDI NEWS", "SAUDI 2", "AL HAYAT 1", "AL HAYAT 2", "AL MAYADEEN", "AL MAJID",
+      "AL JADEED", "AL HDATH", "AL HAYAT MUSALMAN", "AL ARAQUIA", "AL RESALLA TV", "AL RAI", "AL RAHMA",
+      "AL OULA", "AL NAHAR", "AL NAHAR AL YOUM", "AL NAHAR AL HAYUM", "AL NAHAR SPORT", "AL NAHAR DRAMA",
+      "AL NAHAR AL HAYUM", "AL NAHAR", "AL MAYADEEN", "AL MAJID", "AL JADEED", "AL HDATH", "AL HAYAT MUSALMAN",
+      "AL ARAQUIA", "AL RESALLA TV", "AL RAI", "AL RAHMA", "AL OULA", "AL NAHAR", "AL NAHAR AL YOUM",
+      "AL NAHAR AL HAYUM", "AL NAHAR SPORT", "AL NAHAR DRAMA", "AL NAHAR AL HAYUM", "AL NAHAR", "AL MAYADEEN",
+      "AL MAJID", "AL JADEED", "AL HDATH", "AL HAYAT MUSALMAN", "AL ARAQUIA", "AL RESALLA TV", "AL RAI",
+      "AL RAHMA", "AL OULA", "AL NAHAR", "AL NAHAR AL YOUM", "AL NAHAR AL HAYUM", "AL NAHAR SPORT", "AL NAHAR DRAMA"
+    ],
+    nepalese: [
+      "NEPAL TV", "NEPAL PLUS", "NEPAL NEWS", "NEPAL CINEMA", "NEPAL MUSIC", "NEPAL DRAMA", "NEPAL SPORTS",
+      "NEPAL CULTURE", "NEPAL HERITAGE", "NEPAL FOLK", "NEPAL CLASSIC", "NEPAL MODERN", "NEPAL TRADITIONAL",
+      "NEPAL FESTIVAL", "NEPAL SPECIAL", "NEPAL HITS", "NEPAL GOLD", "NEPAL SILVER", "NEPAL PLATINUM",
+      "NEPAL DIAMOND", "NEPAL RUBY", "NEPAL EMERALD", "NEPAL SAPPHIRE", "NEPAL TOPAZ", "NEPAL AMETHYST",
+      "NEPAL GARNET", "NEPAL OPAL", "NEPAL PEARL", "NEPAL JADE", "NEPAL TURQUOISE", "NEPAL LAPIS LAZULI"
+    ],
+    spanish: [
+      "UNIVISION", "TELEMUNDO", "UNIMAS", "GALAVISION", "ESPN DEPORTES", "FOX DEPORTES", "BEIN SPORTS EN ESPAÑOL",
+      "CNN EN ESPAÑOL", "HISTORY EN ESPAÑOL", "DISCOVERY EN ESPAÑOL", "NAT GEO EN ESPAÑOL", "ANIMAL PLANET EN ESPAÑOL",
+      "TLC EN ESPAÑOL", "LIFETIME EN ESPAÑOL", "FXM", "CINEMAX EN ESPAÑOL", "HBO EN ESPAÑOL", "SHOWTIME EN ESPAÑOL",
+      "STARZ EN ESPAÑOL", "CINEMAX EN ESPAÑOL", "HBO EN ESPAÑOL", "SHOWTIME EN ESPAÑOL", "STARZ EN ESPAÑOL",
+      "CINEMAX EN ESPAÑOL", "HBO EN ESPAÑOL", "SHOWTIME EN ESPAÑOL", "STARZ EN ESPAÑOL", "CINEMAX EN ESPAÑOL",
+      "HBO EN ESPAÑOL", "SHOWTIME EN ESPAÑOL", "STARZ EN ESPAÑOL", "CINEMAX EN ESPAÑOL", "HBO EN ESPAÑOL",
+      "SHOWTIME EN ESPAÑOL", "STARZ EN ESPAÑOL", "CINEMAX EN ESPAÑOL", "HBO EN ESPAÑOL", "SHOWTIME EN ESPAÑOL",
+      "STARZ EN ESPAÑOL", "CINEMAX EN ESPAÑOL", "HBO EN ESPAÑOL", "SHOWTIME EN ESPAÑOL", "STARZ EN ESPAÑOL"
+    ],
+    french: [
+      "TV5 MONDE", "FRANCE 24", "FRANCE 2", "FRANCE 3", "FRANCE 4", "FRANCE 5", "ARTE", "CANAL+", "CANAL+ CINEMA",
+      "CANAL+ SPORT", "CANAL+ SERIES", "CANAL+ FAMILY", "CANAL+ DECALE", "CANAL+ INFOSPORT", "CANAL+ SPORT 360",
+      "CANAL+ FOOT", "CANAL+ RUGBY", "CANAL+ TENNIS", "CANAL+ GOLF", "CANAL+ CYCLISME", "CANAL+ FORMULE 1",
+      "CANAL+ MOTO GP", "CANAL+ RALLYE", "CANAL+ SKI", "CANAL+ SURF", "CANAL+ VOILE", "CANAL+ EQUITATION",
+      "CANAL+ PECHE", "CANAL+ CHASSE", "CANAL+ NATURE", "CANAL+ HISTOIRE", "CANAL+ GEOGRAPHIE", "CANAL+ SCIENCE",
+      "CANAL+ CULTURE", "CANAL+ MUSIQUE", "CANAL+ CONCERT", "CANAL+ JAZZ", "CANAL+ CLASSIQUE", "CANAL+ OPERA",
+      "CANAL+ BALLET", "CANAL+ THEATRE", "CANAL+ COMEDIE", "CANAL+ HUMOUR", "CANAL+ MAGAZINE", "CANAL+ DOCUMENTAIRE"
     ]
   };
 
-  const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
-  const [showAllMap, setShowAllMap] = useState<{ [key: number]: boolean }>({});
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<{ title: string; channels: string[] } | null>(null);
 
-  const handleTileClick = (idx: number) => {
-    setExpandedIdx(expandedIdx === idx ? null : idx);
+  const handleTileClick = (category: string) => {
+    const channelKey = channelMap[category as CategoryKey];
+    const channelList = channels[channelKey] || [];
+    setSelectedCategory({ title: category, channels: channelList });
+    setModalOpen(true);
   };
 
-  const handleShowAllToggle = (idx: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setShowAllMap((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedCategory(null);
   };
 
   return (
@@ -377,19 +450,23 @@ export function ChannelsSection() {
         <h1 className="text-3xl md:text-4xl font-bold mb-2">Our Channel Lineup</h1>
         <p className="text-gray-400 text-lg">Browse through our extensive collection of channels from around the world</p>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-        {CATEGORY_KEYS.map((category, idx) => (
+      <div className="flex flex-wrap gap-5">
+        {CATEGORY_KEYS.map((category) => (
           <ChannelTile
             key={category}
             title={category}
             channels={channels[channelMap[category]] || []}
-            expanded={expandedIdx === idx}
-            onClick={() => handleTileClick(idx)}
-            showAll={!!showAllMap[idx]}
-            onShowAllToggle={(e) => handleShowAllToggle(idx, e)}
+            onClick={() => handleTileClick(category)}
           />
         ))}
       </div>
+      
+      <ChannelModal
+        isOpen={modalOpen}
+        onClose={handleCloseModal}
+        title={selectedCategory?.title || ''}
+        channels={selectedCategory?.channels || []}
+      />
     </div>
   );
 } 

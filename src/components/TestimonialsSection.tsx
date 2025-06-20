@@ -84,7 +84,7 @@ export function TestimonialsSection() {
           {testimonials.map((testimonial, index) => (
             <motion.div 
               key={index} 
-              className="flex-shrink-0 w-80 h-80 bg-gray-900/50 rounded-lg overflow-hidden group cursor-pointer"
+              className="flex-shrink-0 w-96 h-96 rounded-lg overflow-hidden group cursor-pointer"
               whileHover={{ 
                 scale: 1.03,
                 y: -5,
