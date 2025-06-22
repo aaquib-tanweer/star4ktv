@@ -4,6 +4,10 @@ import ccIcons from './ccicons.webp';
 import logo from './star4ktv_logo.png';
 
 export function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <footer className="bg-black/90 backdrop-blur-sm py-12 mt-10">
       <div className="container mx-auto px-4">
@@ -11,11 +15,18 @@ export function Footer() {
           {/* Company Info */}
           <div>
             <div className="flex items-center mb-4">
-              <img 
-                src={logo} 
-                alt="Star4KTV - Premium IPTV Streaming Service with 10,000+ Live Channels" 
-                className="h-24 object-contain"
-              />
+              <Link 
+                to="/" 
+                onClick={scrollToTop}
+                className="cursor-pointer transition-transform hover:scale-105"
+                aria-label="Go to home page"
+              >
+                <img 
+                  src={logo} 
+                  alt="Star4KTV - Premium IPTV Streaming Service with 10,000+ Live Channels" 
+                  className="h-24 object-contain"
+                />
+              </Link>
             </div>
             <p className="text-gray-400 text-sm mb-4">
               Your premium IPTV streaming service with 7000+ channels from around the world.
@@ -28,12 +39,19 @@ export function Footer() {
               <MapPinIcon size={18} className="mr-2 text-[#E50914]" />
               Our Location
             </h3>
-            <address className="text-gray-400 text-sm not-italic leading-relaxed">
-              601 W 3rd St,<br />
-              Austin,<br />
-              TX 78703<br />
-              United States
-            </address>
+            <a 
+              href="https://maps.google.com/?q=601+W+3rd+St,+Austin,+TX+78703,+United+States" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-white text-sm transition-colors cursor-pointer"
+            >
+              <address className="not-italic leading-relaxed">
+                601 W 3rd St,<br />
+                Austin,<br />
+                TX 78703<br />
+                United States
+              </address>
+            </a>
           </div>
 
           {/* Contact Us */}
