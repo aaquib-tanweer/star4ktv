@@ -82,6 +82,7 @@ export function PricingSection() {
             "@type": "Product",
             "name": "Star4KTV IPTV Streaming Service",
             "description": "Premium IPTV streaming service with live channels and OTT platforms",
+            "image": "https://star4ktv.com/star4ktv_logo.png",
             "brand": {
               "@type": "Brand",
               "name": "Star4KTV"
@@ -95,7 +96,38 @@ export function PricingSection() {
               "availability": "https://schema.org/InStock",
               "validFrom": "2025-01-27",
               "priceValidUntil": "2025-12-31",
-              "url": "https://star4ktv.com/#pricing"
+              "url": "https://star4ktv.com/#pricing",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": "0",
+                  "currency": "USD"
+                },
+                "deliveryTime": {
+                  "@type": "ShippingDeliveryTime",
+                  "handlingTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  },
+                  "transitTime": {
+                    "@type": "QuantitativeValue",
+                    "minValue": 0,
+                    "maxValue": 0,
+                    "unitCode": "DAY"
+                  }
+                }
+              },
+              "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "US",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                "merchantReturnDays": 30,
+                "returnMethod": "https://schema.org/ReturnByMail",
+                "returnFees": "https://schema.org/FreeReturn"
+              }
             }))
           })
         }}
